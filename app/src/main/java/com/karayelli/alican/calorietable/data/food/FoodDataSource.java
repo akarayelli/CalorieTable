@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.karayelli.alican.calorietable.data.local.food;
+package com.karayelli.alican.calorietable.data.food;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;

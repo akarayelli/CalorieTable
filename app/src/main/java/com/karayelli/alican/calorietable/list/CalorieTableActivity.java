@@ -17,15 +17,15 @@ import android.widget.ImageView;
 import com.karayelli.alican.calorietable.BaseActivity;
 import com.karayelli.alican.calorietable.Injection;
 import com.karayelli.alican.calorietable.R;
-import com.karayelli.alican.calorietable.data.local.food.Food;
+import com.karayelli.alican.calorietable.data.food.Food;
 import com.karayelli.alican.calorietable.model.TabItemUIModel;
 import com.karayelli.alican.calorietable.model.TabUIModel;
-import com.karayelli.alican.calorietable.util.DataUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import devlight.io.library.ntb.NavigationTabBar;
+import timber.log.Timber;
 
 
 public class CalorieTableActivity extends BaseActivity implements CalorieTableContract.View {
@@ -39,13 +39,9 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DataUtil dataUtil = new DataUtil(getApplicationContext());
-        dataUtil.createFoodType();
-
         mPresenter = new CalorieTablePresenter(Injection.provideFoodTypesDataSource(getApplicationContext()), Injection.provideFoodDataSource(getApplicationContext()), this);
 
         initUI(new ArrayList<TabUIModel>(), new ArrayList<TabItemUIModel>());
-
     }
 
     @Override
@@ -55,11 +51,10 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     }
 
 
-
     private void initUI(final List<TabUIModel> tabUIModels, final List<TabItemUIModel> favoriteItemList) {
 
         // ***************  VIEW PAGER **********************
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
+        final ViewPager viewPager = findViewById(R.id.vp_horizontal_ntb);
         viewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
@@ -72,8 +67,8 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
             }
 
             @Override
-            public void destroyItem(final View container, final int position, final Object object) {
-                ((ViewPager) container).removeView((View) object);
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView((View) object);
             }
 
             @Override
@@ -82,27 +77,28 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                         getBaseContext()).inflate(R.layout.item_vp_list, null, false);
 
 
-                // ****************** RECYCLEVIEW *************************
-                final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+                // ****************** RECYCLE VIEW *************************
+                final RecyclerView recyclerView = view.findViewById(R.id.rv);
                 recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(
-                                getBaseContext(), LinearLayoutManager.VERTICAL, false
-                        )
-                );
+                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
 
                 RecycleAdapter adapter = null;
 
                 if(position == 0){
+                    Timber.d("Will initialize first list (FAVORITE)...");
                     adapter = new RecycleAdapter(favoriteItemList, CalorieTableActivity.this);
                     recyclerView.setAdapter(adapter);
                 }else{
+                    Timber.d("Will initialize food category list...");
                     adapter = new RecycleAdapter(tabUIModels.get(position -1 ).getTabItemUIModels(), CalorieTableActivity.this);
                     recyclerView.setAdapter(adapter);
                 }
                 //************************************************************
 
+
+
                 //************************* FILTERABLE SEARCH ****************
-                final SearchView searchView = (SearchView) view.findViewById(R.id.mSearch);
+                final SearchView searchView = view.findViewById(R.id.mSearch);
                 final RecycleAdapter finalAdapter = adapter;
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
@@ -112,18 +108,18 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
                     @Override
                     public boolean onQueryTextChange(String query) {
-                        //FILTER AS YOU TYPE
                         finalAdapter.getFilter().filter(query);
                         return false;
                     }
                 });
 
 
-                EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+                EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
                 searchEditText.setTextColor(getResources().getColor(R.color.white));
                 searchEditText.setHintTextColor(getResources().getColor(R.color.colorAccent));
-
                 // ***********************************************************
+
+
 
                 container.addView(view);
                 return view;
@@ -133,19 +129,18 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
         final String[] colors = getResources().getStringArray(R.array.default_preview);
 
-        final NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.ntb_horizontal);
+        final NavigationTabBar navigationTabBar = findViewById(R.id.ntb_horizontal);
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
 
 
         // *************** Favorite Tab ************
         models.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.ic_first),
-                        Color.parseColor(colors[0]))
-                        .title("Favoriler")
+                        getResources().getDrawable(R.drawable.icn_favorite),
+                        getResources().getColor(R.color.favoriteTabColor))
+                        .title(getString(R.string.favorite_tab_title))
                         .build()
         );
-
 
         for(TabUIModel tabUIModel : tabUIModels){
             models.add(
@@ -180,22 +175,19 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
 
+                ImageView backdropImageView = findViewById(R.id.backdrop);
 
 
-                ImageView backdropImageView = (ImageView)findViewById(R.id.backdrop);
-                backdropImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-
-                final CollapsingToolbarLayout collapsingToolbarLayout =
-                        (CollapsingToolbarLayout) findViewById(R.id.toolbar);
-                collapsingToolbarLayout.setExpandedTitleColor(Color.parseColor("#009F90AF"));
-                collapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor("#9f90af"));
+                final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar);
+                collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.titleTextColor));
+                collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.titleTextColor));
 
                 if(position == 0){
-                    backdropImageView.setImageResource(R.drawable.favorite);
-                    collapsingToolbarLayout.setTitle("Favoriler");
-
+                    Timber.d("Will initialize first tab (FAVORITE)...");
+                    backdropImageView.setImageResource(R.drawable.sptlight_favorite);
+                    collapsingToolbarLayout.setTitle(getString(R.string.favorite_tab_title));
                 }else{
+                    Timber.d("Will initialize food category tab...");
                     TabUIModel tabUIModel = tabUIModels.get(position -1);
                     backdropImageView.setImageResource(tabUIModel.getCollapseImage());
                     collapsingToolbarLayout.setTitle(tabUIModel.getTitle());

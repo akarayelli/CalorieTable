@@ -4,10 +4,10 @@ import android.content.Context;
 
 import com.karayelli.alican.calorietable.Injection;
 import com.karayelli.alican.calorietable.R;
-import com.karayelli.alican.calorietable.data.local.food.FoodDataSource;
-import com.karayelli.alican.calorietable.data.local.foodType.FoodTypesDataSource;
-import com.karayelli.alican.calorietable.data.local.food.Food;
-import com.karayelli.alican.calorietable.data.local.foodType.FoodType;
+import com.karayelli.alican.calorietable.data.food.FoodDataSource;
+import com.karayelli.alican.calorietable.data.foodType.FoodTypesDataSource;
+import com.karayelli.alican.calorietable.data.food.Food;
+import com.karayelli.alican.calorietable.data.foodType.FoodType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class DataUtil {
         FoodTypesDataSource foodTypesDataSource = Injection.provideFoodTypesDataSource(mContext);
 
 
-        FoodType foodType1 = new FoodType("Type1","Type1 Description", "1", colors[1], R.drawable.ic_second,R.drawable.food_type_1);
+        FoodType foodType1 = new FoodType("Type1","Type1 Description", "1", colors[1], R.drawable.tab_apple,R.drawable.sptlight_fruit);
         foodTypesDataSource.saveFoodType(foodType1);
 
         Food food1 = new Food("Food1","100","1",false, "1");
@@ -50,7 +50,7 @@ public class DataUtil {
 
 
 
-        FoodType foodType2 = new FoodType("Type2","Type2 Description","2", colors[2], R.drawable.ic_third,R.drawable.food_type_2);
+        FoodType foodType2 = new FoodType("Type2","Type2 Description","2", colors[2], R.drawable.tab_carrot,R.drawable.sptlight_vegetables);
         foodTypesDataSource.saveFoodType(foodType2);
 
         Food food4 = new Food("Food4","100","4",false, "2");
@@ -70,7 +70,7 @@ public class DataUtil {
         foodType2.setFoodList(foodList2);
 
 
-        FoodType foodType3 = new FoodType("Type3","Type3 Description","3", colors[3], R.drawable.ic_fourth,R.drawable.food_type_3);
+        FoodType foodType3 = new FoodType("Type3","Type3 Description","3", colors[3], R.drawable.tab_milk,R.drawable.sptlight_milk);
         foodTypesDataSource.saveFoodType(foodType3);
 
         Food food7 = new Food("Food7","100","7",false,"3");
@@ -86,6 +86,19 @@ public class DataUtil {
         foodDataSource.saveFood(food10);
         foodDataSource.saveFood(food11);
         foodDataSource.saveFood(food12);
+
+
+        FoodType foodType4 = new FoodType("Type4","Type4 Description","4", colors[4], R.drawable.tab_fish,R.drawable.sptlight_fish);
+        foodTypesDataSource.saveFoodType(foodType4);
+
+        Food food13 = new Food("Food13","100","13",false,"4");
+        Food food14 = new Food("Food14","200","14",false,"4");
+        Food food15 = new Food("Food15","300","15",true,"4");
+
+
+        foodDataSource.saveFood(food13);
+        foodDataSource.saveFood(food14);
+        foodDataSource.saveFood(food15);
 
 
         List<Food> foodList3 = new ArrayList<>();

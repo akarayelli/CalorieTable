@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.karayelli.alican.calorietable.data.local.food;
+package com.karayelli.alican.calorietable.data.food;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -22,16 +22,11 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import com.karayelli.alican.calorietable.data.local.foodType.FoodType;
+import com.karayelli.alican.calorietable.data.foodType.FoodType;
 
 import java.util.Objects;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
-
-/**
- * Immutable model class for a Food.
- */
-
 
 
 @Entity(tableName = "food", foreignKeys = @ForeignKey(entity = FoodType.class, parentColumns = "type_id", childColumns = "type_id", onDelete = CASCADE))

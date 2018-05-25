@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.karayelli.alican.calorietable.data.local.foodType;
+package com.karayelli.alican.calorietable.data.foodType;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -22,7 +22,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import com.karayelli.alican.calorietable.data.local.food.Food;
+import com.karayelli.alican.calorietable.data.food.Food;
 
 import java.util.List;
 import java.util.Objects;

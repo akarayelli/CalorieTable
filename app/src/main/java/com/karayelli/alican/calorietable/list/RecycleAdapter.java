@@ -10,7 +10,6 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.karayelli.alican.calorietable.R;
-import com.karayelli.alican.calorietable.data.local.food.Food;
 import com.karayelli.alican.calorietable.model.TabItemUIModel;
 
 import java.util.List;

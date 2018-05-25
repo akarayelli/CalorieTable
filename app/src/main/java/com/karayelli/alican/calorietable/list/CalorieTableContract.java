@@ -3,7 +3,6 @@ package com.karayelli.alican.calorietable.list;
 import android.support.annotation.NonNull;
 
 import com.karayelli.alican.calorietable.BasePresenter;
-import com.karayelli.alican.calorietable.data.local.food.Food;
 import com.karayelli.alican.calorietable.model.TabItemUIModel;
 import com.karayelli.alican.calorietable.model.TabUIModel;
 
@@ -38,7 +37,7 @@ public interface CalorieTableContract {
 
         void addFoodToFavorite();
 
-        void openFoodDetail(@NonNull Food requestedFood);
+        void openFoodDetail(@NonNull TabItemUIModel requestedFood);
 
     }
 }

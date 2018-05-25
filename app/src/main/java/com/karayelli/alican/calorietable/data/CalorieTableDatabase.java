@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.karayelli.alican.calorietable.data.local;
+package com.karayelli.alican.calorietable.data;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.karayelli.alican.calorietable.data.local.food.Food;
-import com.karayelli.alican.calorietable.data.local.food.FoodDao;
-import com.karayelli.alican.calorietable.data.local.foodType.FoodType;
-import com.karayelli.alican.calorietable.data.local.foodType.FoodTypeDao;
+import com.karayelli.alican.calorietable.data.food.Food;
+import com.karayelli.alican.calorietable.data.food.FoodDao;
+import com.karayelli.alican.calorietable.data.foodType.FoodType;
+import com.karayelli.alican.calorietable.data.foodType.FoodTypeDao;
 
 /**
  * The Room Database that contains the Task table.

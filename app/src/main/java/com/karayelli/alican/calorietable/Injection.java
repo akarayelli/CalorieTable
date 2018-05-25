@@ -19,9 +19,9 @@ package com.karayelli.alican.calorietable;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.karayelli.alican.calorietable.data.local.food.FoodDataSource;
-import com.karayelli.alican.calorietable.data.local.foodType.FoodTypesDataSource;
-import com.karayelli.alican.calorietable.data.local.CalorieTableDatabase;
+import com.karayelli.alican.calorietable.data.food.FoodDataSource;
+import com.karayelli.alican.calorietable.data.foodType.FoodTypesDataSource;
+import com.karayelli.alican.calorietable.data.CalorieTableDatabase;
 import com.karayelli.alican.calorietable.util.AppExecutors;
 
 import static com.google.common.base.Preconditions.checkNotNull;

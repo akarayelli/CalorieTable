@@ -14,37 +14,27 @@
  * limitations under the License.
  */
 
-package com.karayelli.alican.calorietable.data.local.foodType;
+package com.karayelli.alican.calorietable.data.food;
 
 import android.support.annotation.NonNull;
+
 import java.util.List;
 
 
+public interface IFoodDataSource {
 
-public interface IFoodTypesDataSource {
 
-    interface LoadFoodTypesCallback {
+    interface LoadFoodsCallback {
 
-        void onFoodTypesLoaded(List<FoodType> foodTypes);
-
-        void onDataNotAvailable();
-    }
-
-    interface GetFoodTypeCallback {
-
-        void onFoodTypeLoaded(FoodType foodType);
+        void onFoodsLoaded(List<Food> foods);
 
         void onDataNotAvailable();
     }
 
+    void getFavoriteFoods(@NonNull LoadFoodsCallback callback);
 
-    void getFoodTypes(@NonNull LoadFoodTypesCallback callback);
+    void getFoodsByTypeId(String typeId, @NonNull LoadFoodsCallback callback);
 
-    void getFoodType(@NonNull String taskId, @NonNull GetFoodTypeCallback callback);
+    void saveFood(@NonNull final Food food);
 
-    void saveFoodType(@NonNull FoodType foodType);
-
-    void deleteAllFoodTypes();
-
-    void deleteFoodType(@NonNull String foodTypeId);
-}
+ }

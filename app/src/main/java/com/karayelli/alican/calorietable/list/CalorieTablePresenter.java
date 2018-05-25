@@ -3,12 +3,12 @@ package com.karayelli.alican.calorietable.list;
 
 import android.support.annotation.NonNull;
 
-import com.karayelli.alican.calorietable.data.local.food.FoodDataSource;
-import com.karayelli.alican.calorietable.data.local.food.IFoodDataSource;
-import com.karayelli.alican.calorietable.data.local.foodType.FoodTypesDataSource;
-import com.karayelli.alican.calorietable.data.local.foodType.IFoodTypesDataSource;
-import com.karayelli.alican.calorietable.data.local.food.Food;
-import com.karayelli.alican.calorietable.data.local.foodType.FoodType;
+import com.karayelli.alican.calorietable.data.food.Food;
+import com.karayelli.alican.calorietable.data.food.FoodDataSource;
+import com.karayelli.alican.calorietable.data.food.IFoodDataSource;
+import com.karayelli.alican.calorietable.data.foodType.FoodType;
+import com.karayelli.alican.calorietable.data.foodType.FoodTypesDataSource;
+import com.karayelli.alican.calorietable.data.foodType.IFoodTypesDataSource;
 import com.karayelli.alican.calorietable.model.TabItemUIModel;
 import com.karayelli.alican.calorietable.model.TabUIModel;
 
@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public class CalorieTablePresenter implements CalorieTableContract.Presenter {
@@ -153,7 +151,7 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
     }
 
     @Override
-    public void openFoodDetail(@NonNull Food requestedFood) {
+    public void openFoodDetail(@NonNull TabItemUIModel requestedFood) {
 
     }
 

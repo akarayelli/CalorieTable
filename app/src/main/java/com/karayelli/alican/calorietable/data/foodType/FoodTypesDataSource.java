@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.karayelli.alican.calorietable.data.local.foodType;
+package com.karayelli.alican.calorietable.data.foodType;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.karayelli.alican.calorietable.data.local.food.Food;
 import com.karayelli.alican.calorietable.util.AppExecutors;
 
 import java.util.List;

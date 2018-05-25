@@ -14,44 +14,24 @@
  * limitations under the License.
  */
 
-package com.karayelli.alican.calorietable.data.local.foodType;
+package com.karayelli.alican.calorietable.data.food;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
-
-import com.karayelli.alican.calorietable.data.local.food.Food;
-import com.karayelli.alican.calorietable.data.local.foodType.FoodType;
 
 import java.util.List;
 
 @Dao
-public interface FoodTypeDao {
+public interface FoodDao {
 
+    @Query("SELECT * FROM food WHERE is_favorite = 1")
+    List<Food> getFavoriteFoods();
 
-    @Query("SELECT * FROM food_type")
-    List<FoodType> getAllFoodTypes();
-
-
-    @Query("SELECT * FROM food_type WHERE type_id = :typeId")
-    FoodType getFoodTypeById(String typeId);
-
+    @Query("SELECT * FROM food WHERE type_id = :typeId")
+    List<Food> getFoodsByTypeId(String typeId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertFoodType(FoodType foodType);
-
-
-    @Update
-    int updateFoodType(FoodType foodType);
-
-
-    @Query("DELETE FROM food_type WHERE type_id = :typeId")
-    int deleteFoodTypeById(String typeId);
-
-
-    @Query("DELETE FROM food_type")
-    void deleteAllFoodTypes();
-
+    void insertFood(Food food);
 }
