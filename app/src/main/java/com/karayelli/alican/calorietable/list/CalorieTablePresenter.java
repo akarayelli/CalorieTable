@@ -118,7 +118,7 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
         List<TabItemUIModel> favTabItemUIModels = new ArrayList<>();
 
         for (Food food: favoriteFoods) {
-            favTabItemUIModels.add(TabItemUIModel.builder().title(food.getLabel()).calorieValue(food.getCalorie()).id(food.getId()).build());
+            favTabItemUIModels.add(TabItemUIModel.builder().titleTR(food.getLabelTR()).titleEN(food.getLabelEN()).calorieValue(food.getCalorie()).id(food.getId()).build());
         }
 
 
@@ -128,11 +128,12 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
 
             List<TabItemUIModel> tabItemUIModels = new ArrayList<>();
             for (Food food: foodType.getFoodList()) {
-                tabItemUIModels.add(TabItemUIModel.builder().title(food.getLabel()).calorieValue(food.getCalorie()).id(food.getId()).build());
+                tabItemUIModels.add(TabItemUIModel.builder().titleTR(food.getLabelTR()).titleEN(food.getLabelEN()).calorieValue(food.getCalorie()).id(food.getId()).build());
             }
 
             TabUIModel tabUIModel = TabUIModel.builder().id(foodType.getId())
-                    .title(foodType.getLabel())
+                    .titleTR(foodType.getLabelTR())
+                    .titleEN(foodType.getLabelEN())
                     .tabIcon(foodType.getIcon())
                     .tabColor(foodType.getColor())
                     .collapseImage(foodType.getSpotlightImage())

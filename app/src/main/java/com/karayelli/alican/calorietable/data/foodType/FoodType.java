@@ -40,8 +40,12 @@ public final class FoodType {
     private String mId;
 
     @NonNull
-    @ColumnInfo(name = "label")
-    private String mLabel;
+    @ColumnInfo(name = "label_tr")
+    private String mLabelTR;
+
+    @NonNull
+    @ColumnInfo(name = "label_en")
+    private String mLabelEN;
 
     @NonNull
     @ColumnInfo(name = "description")
@@ -63,17 +67,10 @@ public final class FoodType {
     @Ignore
     private List<Food> foodList;
 
-    /**
-     * Use this constructor to specify a completed Task if the Task already has an id (copy of
-     * another Task).
-     *
-     * @param label       title of the task
-     * @param description description of the task
-     * @param id          id of the task
-     */
-    public FoodType(@NonNull String label, @NonNull String description, @NonNull String id, @NonNull String color, @NonNull int icon, @NonNull int spotlightImage) {
+    public FoodType(@NonNull String labelTR, @NonNull String labelEN, @NonNull String description, @NonNull String id, @NonNull String color, @NonNull int icon, @NonNull int spotlightImage) {
         mId = id;
-        mLabel = label;
+        mLabelTR = labelTR;
+        mLabelEN = labelEN;
         mDescription = description;
         mColor = color;
         mIcon = icon;
@@ -95,8 +92,13 @@ public final class FoodType {
     }
 
     @NonNull
-    public String getLabel() {
-        return mLabel;
+    public String getLabelTR() {
+        return mLabelTR;
+    }
+
+    @NonNull
+    public String getLabelEN() {
+        return mLabelEN;
     }
 
     @NonNull
@@ -124,30 +126,32 @@ public final class FoodType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FoodType foodType = (FoodType) o;
-        return Objects.equals(mId, foodType.mId) &&
-                Objects.equals(mLabel, foodType.mLabel) &&
+        return mIcon == foodType.mIcon &&
+                mSpotlightImage == foodType.mSpotlightImage &&
+                Objects.equals(mId, foodType.mId) &&
+                Objects.equals(mLabelTR, foodType.mLabelTR) &&
+                Objects.equals(mLabelEN, foodType.mLabelEN) &&
                 Objects.equals(mDescription, foodType.mDescription) &&
                 Objects.equals(mColor, foodType.mColor) &&
-                Objects.equals(mIcon, foodType.mIcon) &&
-                Objects.equals(mSpotlightImage, foodType.mSpotlightImage) &&
                 Objects.equals(foodList, foodType.foodList);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(mId, mLabel, mDescription, mColor, mIcon, mSpotlightImage, foodList);
+        return Objects.hash(mId, mLabelTR, mLabelEN, mDescription, mColor, mIcon, mSpotlightImage, foodList);
     }
 
     @Override
     public String toString() {
         return "FoodType{" +
                 "mId='" + mId + '\'' +
-                ", mLabel='" + mLabel + '\'' +
+                ", mLabelTR='" + mLabelTR + '\'' +
+                ", mLabelEN='" + mLabelEN + '\'' +
                 ", mDescription='" + mDescription + '\'' +
                 ", mColor='" + mColor + '\'' +
-                ", mIcon='" + mIcon + '\'' +
-                ", mSpotlightImage='" + mSpotlightImage + '\'' +
+                ", mIcon=" + mIcon +
+                ", mSpotlightImage=" + mSpotlightImage +
                 ", foodList=" + foodList +
                 '}';
     }

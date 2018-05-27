@@ -44,8 +44,12 @@ public final class Food {
 
 
     @NonNull
-    @ColumnInfo(name = "label")
-    private String mLabel;
+    @ColumnInfo(name = "label_tr")
+    private String mLabelTR;
+
+    @NonNull
+    @ColumnInfo(name = "label_en")
+    private String mLabelEN;
 
     @NonNull
     @ColumnInfo(name = "calorie")
@@ -56,16 +60,11 @@ public final class Food {
     @ColumnInfo(name = "is_favorite")
     private Boolean mFavorite;
 
-    /**
-     *
-     * @param label       title of the food
-     * @param calorie     calorie value of food
-     * @param id          id of the food
-     * @param favorite  if food marked as favorite
-     */
-    public Food(@NonNull String label, @NonNull String calorie, @NonNull String id, @NonNull Boolean favorite, @NonNull String typeId) {
+
+    public Food(@NonNull String labelTR, @NonNull String labelEN, @NonNull String calorie, @NonNull String id, @NonNull Boolean favorite, @NonNull String typeId) {
         mId = id;
-        mLabel = label;
+        mLabelTR = labelTR;
+        mLabelEN = labelEN;
         mCalorie = calorie;
         mFavorite = favorite;
         mTypeId = typeId;
@@ -82,8 +81,13 @@ public final class Food {
     }
 
     @NonNull
-    public String getLabel() {
-        return mLabel;
+    public String getLabelTR() {
+        return mLabelTR;
+    }
+
+    @NonNull
+    public String getLabelEN() {
+        return mLabelEN;
     }
 
     @NonNull
@@ -101,9 +105,10 @@ public final class Food {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Food food = (Food) o;
-        return mTypeId == food.mTypeId &&
-                Objects.equals(mId, food.mId) &&
-                Objects.equals(mLabel, food.mLabel) &&
+        return Objects.equals(mId, food.mId) &&
+                Objects.equals(mTypeId, food.mTypeId) &&
+                Objects.equals(mLabelTR, food.mLabelTR) &&
+                Objects.equals(mLabelEN, food.mLabelEN) &&
                 Objects.equals(mCalorie, food.mCalorie) &&
                 Objects.equals(mFavorite, food.mFavorite);
     }
@@ -111,17 +116,19 @@ public final class Food {
     @Override
     public int hashCode() {
 
-        return Objects.hash(mId, mTypeId, mLabel, mCalorie, mFavorite);
+        return Objects.hash(mId, mTypeId, mLabelTR, mLabelEN, mCalorie, mFavorite);
     }
 
     @Override
     public String toString() {
         return "Food{" +
                 "mId='" + mId + '\'' +
-                ", mTypeId=" + mTypeId +
-                ", mLabel='" + mLabel + '\'' +
+                ", mTypeId='" + mTypeId + '\'' +
+                ", mLabelTR='" + mLabelTR + '\'' +
+                ", mLabelEN='" + mLabelEN + '\'' +
                 ", mCalorie='" + mCalorie + '\'' +
                 ", mFavorite=" + mFavorite +
                 '}';
     }
 }
+

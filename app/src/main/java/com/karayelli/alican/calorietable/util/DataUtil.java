@@ -30,12 +30,12 @@ public class DataUtil {
         FoodTypesDataSource foodTypesDataSource = Injection.provideFoodTypesDataSource(mContext);
 
 
-        FoodType foodType1 = new FoodType("Type1","Type1 Description", "1", colors[1], R.drawable.tab_apple,R.drawable.sptlight_fruit);
+        FoodType foodType1 = new FoodType("Meyveler","Fruits","Description", "1", colors[1], R.drawable.tab_apple,R.drawable.sptlight_fruit);
         foodTypesDataSource.saveFoodType(foodType1);
 
-        Food food1 = new Food("Food1","100","1",false, "1");
-        Food food2 = new Food("Food2","200","2",true, "1");
-        Food food3 = new Food("Food3","300","3",false, "1");
+        Food food1 = new Food("Elma", "Apple","95","1",false, "1");
+        Food food2 = new Food("Kayısı", "Apricot","29","2",false, "1");
+        Food food3 = new Food("Avokado", "Avocado","300","3",false, "1");
 
         foodDataSource.saveFood(food1);
         foodDataSource.saveFood(food2);
@@ -50,12 +50,12 @@ public class DataUtil {
 
 
 
-        FoodType foodType2 = new FoodType("Type2","Type2 Description","2", colors[2], R.drawable.tab_carrot,R.drawable.sptlight_vegetables);
+        FoodType foodType2 = new FoodType("Type2", "","Type2 Description","2", colors[2], R.drawable.tab_carrot,R.drawable.sptlight_vegetables);
         foodTypesDataSource.saveFoodType(foodType2);
 
-        Food food4 = new Food("Food4","100","4",false, "2");
-        Food food5 = new Food("Food5","200","5",false, "2");
-        Food food6 = new Food("Food6","300","6",false, "2");
+        Food food4 = new Food("Food4","","100","4",false, "2");
+        Food food5 = new Food("Food5","","200","5",false, "2");
+        Food food6 = new Food("Food6","","300","6",false, "2");
 
         foodDataSource.saveFood(food4);
         foodDataSource.saveFood(food5);
@@ -70,15 +70,16 @@ public class DataUtil {
         foodType2.setFoodList(foodList2);
 
 
-        FoodType foodType3 = new FoodType("Type3","Type3 Description","3", colors[3], R.drawable.tab_milk,R.drawable.sptlight_milk);
+
+        FoodType foodType3 = new FoodType("Type3","","Type3 Description","3", colors[3], R.drawable.tab_milk,R.drawable.sptlight_milk);
         foodTypesDataSource.saveFoodType(foodType3);
 
-        Food food7 = new Food("Food7","100","7",false,"3");
-        Food food8 = new Food("Food8","200","8",false,"3");
-        Food food9 = new Food("Food9","300","9",true,"3");
-        Food food10 = new Food("Food10","100","10",false,"3");
-        Food food11 = new Food("Food11","200","11",true,"3");
-        Food food12 = new Food("Food12","300","12",false,"3");
+        Food food7 = new Food("Food7", "","100","7",false,"3");
+        Food food8 = new Food("Food8", "","200","8",false,"3");
+        Food food9 = new Food("Food9","","300","9",true,"3");
+        Food food10 = new Food("Food10","","100","10",false,"3");
+        Food food11 = new Food("Food11","","200","11",true,"3");
+        Food food12 = new Food("Food12","","300","12",false,"3");
 
         foodDataSource.saveFood(food7);
         foodDataSource.saveFood(food8);
@@ -88,12 +89,12 @@ public class DataUtil {
         foodDataSource.saveFood(food12);
 
 
-        FoodType foodType4 = new FoodType("Type4","Type4 Description","4", colors[4], R.drawable.tab_fish,R.drawable.sptlight_fish);
+        FoodType foodType4 = new FoodType("Type4","","Type4 Description","4", colors[4], R.drawable.tab_fish,R.drawable.sptlight_fish);
         foodTypesDataSource.saveFoodType(foodType4);
 
-        Food food13 = new Food("Food13","100","13",false,"4");
-        Food food14 = new Food("Food14","200","14",false,"4");
-        Food food15 = new Food("Food15","300","15",true,"4");
+        Food food13 = new Food("Food13","","100","13",false,"4");
+        Food food14 = new Food("Food14","","200","14",false,"4");
+        Food food15 = new Food("Food15","","300","15",true,"4");
 
 
         foodDataSource.saveFood(food13);

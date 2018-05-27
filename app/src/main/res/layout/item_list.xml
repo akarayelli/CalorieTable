@@ -18,7 +18,7 @@
     <TextView
         android:id="@+id/txt_vp_item_list"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Navigation"
         android:textColor="#9b92b3"
@@ -52,17 +52,11 @@
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/icn_add_favorite"
+        android:adjustViewBounds="true"
         app:layout_constraintRight_toRightOf="@id/constraint"
         app:layout_constraintWidth_percent="0.12" />
 
 
-    <!--<Button-->
-    <!--android:id="@+id/favorite_btn"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@android:color/holo_blue_bright"-->
-    <!--android:text="OK"-->
-    <!--app:layout_constraintRight_toRightOf="@id/constraint"-->
-    <!--app:layout_constraintWidth_percent="0.1"/>-->
+
 
 </android.support.constraint.ConstraintLayout>

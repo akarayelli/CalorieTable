@@ -178,17 +178,19 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                 ImageView backdropImageView = findViewById(R.id.backdrop);
 
 
+                tabUIModels.get(position).getTabColor()
                 final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar);
-                collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.titleTextColor));
-                collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.titleTextColor));
+                collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.white));
 
                 if(position == 0){
                     Timber.d("Will initialize first tab (FAVORITE)...");
+                    collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
                     backdropImageView.setImageResource(R.drawable.sptlight_favorite);
                     collapsingToolbarLayout.setTitle(getString(R.string.favorite_tab_title));
                 }else{
                     Timber.d("Will initialize food category tab...");
                     TabUIModel tabUIModel = tabUIModels.get(position -1);
+                    collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
                     backdropImageView.setImageResource(tabUIModel.getCollapseImage());
                     collapsingToolbarLayout.setTitle(tabUIModel.getTitle());
                 }
