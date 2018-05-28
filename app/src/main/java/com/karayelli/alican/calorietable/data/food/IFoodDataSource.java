@@ -31,9 +31,20 @@ public interface IFoodDataSource {
         void onDataNotAvailable();
     }
 
+    interface GetFoodCallback {
+
+        void onFoodLoaded(Food food);
+
+        void onDataNotAvailable();
+    }
+
     void getFavoriteFoods(@NonNull LoadFoodsCallback callback);
 
     void getFoodsByTypeId(String typeId, @NonNull LoadFoodsCallback callback);
+
+    void getFoodById(String foodId, @NonNull GetFoodCallback callback);
+
+    void changeFavoriteStatus(String foodId, Boolean favorite);
 
     void saveFood(@NonNull final Food food);
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.karayelli.alican.calorietable.BaseActivity;
 import com.karayelli.alican.calorietable.Injection;
@@ -32,6 +33,8 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
 
     private CalorieTableContract.Presenter mPresenter;
+    private RecycleAdapter mListAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +85,18 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
 
-                RecycleAdapter adapter = null;
 
                 if(position == 0){
                     Timber.d("Will initialize first list (FAVORITE)...");
-                    adapter = new RecycleAdapter(favoriteItemList, CalorieTableActivity.this);
-                    recyclerView.setAdapter(adapter);
+
+                     mListAdapter = new RecycleAdapter(favoriteItemList, CalorieTableActivity.this, mItemListener);
+                    recyclerView.setAdapter(mListAdapter);
+
                 }else{
                     Timber.d("Will initialize food category list...");
-                    adapter = new RecycleAdapter(tabUIModels.get(position -1 ).getTabItemUIModels(), CalorieTableActivity.this);
-                    recyclerView.setAdapter(adapter);
+                    mListAdapter= new  RecycleAdapter(tabUIModels.get(position -1 ).getTabItemUIModels(), CalorieTableActivity.this, mItemListener);
+                    recyclerView.setAdapter(mListAdapter);
+
                 }
                 //************************************************************
 
@@ -99,7 +104,6 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
                 //************************* FILTERABLE SEARCH ****************
                 final SearchView searchView = view.findViewById(R.id.mSearch);
-                final RecycleAdapter finalAdapter = adapter;
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -108,18 +112,15 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
                     @Override
                     public boolean onQueryTextChange(String query) {
-                        finalAdapter.getFilter().filter(query);
+                        mListAdapter.getFilter().filter(query);
                         return false;
                     }
                 });
-
 
                 EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
                 searchEditText.setTextColor(getResources().getColor(R.color.white));
                 searchEditText.setHintTextColor(getResources().getColor(R.color.colorAccent));
                 // ***********************************************************
-
-
 
                 container.addView(view);
                 return view;
@@ -153,7 +154,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         }
 
         navigationTabBar.setModels(models);
-        navigationTabBar.setViewPager(viewPager, 0);
+        navigationTabBar.setViewPager(viewPager, 2);
 
         //****************************************************************************
 
@@ -161,6 +162,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         //IMPORTANT: ENABLE SCROLL BEHAVIOUR IN COORDINATOR LAYOUT
         navigationTabBar.setBehaviorEnabled(true);
 
+        /*
         navigationTabBar.setOnTabBarSelectedIndexListener(new NavigationTabBar.OnTabBarSelectedIndexListener() {
             @Override
             public void onStartTabSelected(final NavigationTabBar.Model model, final int index) {
@@ -171,26 +173,25 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                 model.hideBadge();
             }
         });
+        */
+
         navigationTabBar.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
 
                 ImageView backdropImageView = findViewById(R.id.backdrop);
 
-
-                tabUIModels.get(position).getTabColor()
                 final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar);
                 collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.white));
+                collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
 
                 if(position == 0){
                     Timber.d("Will initialize first tab (FAVORITE)...");
-                    collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
                     backdropImageView.setImageResource(R.drawable.sptlight_favorite);
                     collapsingToolbarLayout.setTitle(getString(R.string.favorite_tab_title));
                 }else{
                     Timber.d("Will initialize food category tab...");
                     TabUIModel tabUIModel = tabUIModels.get(position -1);
-                    collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
                     backdropImageView.setImageResource(tabUIModel.getCollapseImage());
                     collapsingToolbarLayout.setTitle(tabUIModel.getTitle());
                 }
@@ -209,8 +210,31 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
     }
 
+    FoodItemListener mItemListener = new FoodItemListener() {
+        @Override
+        public void onFoodClick(TabItemUIModel item) {
+            Timber.d("Food Item Clicked!");
+            mPresenter.openFoodDetail(item);
+        }
+
+        @Override
+        public void onFoodMarkedAsFavorite(TabItemUIModel item) {
+            Timber.d("Food item: " + item.getTitle() + " clicked to add to favorite!");
+            mPresenter.addFoodToFavorite(item);
+        }
+
+        @Override
+        public void onFoodRemovedFromFavorite(TabItemUIModel item) {
+            Timber.d("Food item: " + item.getTitle() + " clicked to remove from favorite!");
+            mPresenter.removeFoodFromFavorite(item);
+        }
+    };
 
 
+    @Override
+    public void markFoodAsFavorite(String id) {
+
+    }
 
     @Override
     public void setLoadingIndicator(boolean active) {
@@ -238,10 +262,27 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
     @Override
     public void showSuccessfullySavedMessage() {
+        Toast.makeText(this, "", Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void showSuccessfullyAddedToFavoriteMessage() {
+
+
+        mPresenter.loadFoodTypes();
+
+        Toast.makeText(this, getString(R.string.successfully_added_favorite), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showSuccessfullyRemovedFromFavoriteMessage() {
+        mPresenter.loadFoodTypes();
+        Toast.makeText(this, getString(R.string.successfully_removed_favorite), Toast.LENGTH_LONG).show();
     }
 
     public interface FoodItemListener {
-        void onFoodClick(Food clickedFood);
+        void onFoodClick(TabItemUIModel item);
+        void onFoodMarkedAsFavorite(TabItemUIModel item);
+        void onFoodRemovedFromFavorite(TabItemUIModel item);
     }
 }

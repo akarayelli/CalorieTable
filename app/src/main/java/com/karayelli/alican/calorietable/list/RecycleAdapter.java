@@ -1,12 +1,14 @@
 package com.karayelli.alican.calorietable.list;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.karayelli.alican.calorietable.R;
@@ -21,9 +23,10 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     private CalorieTableActivity.FoodItemListener mFoodItemListener;
     private FoodFilter filter;
 
-    public RecycleAdapter(List<TabItemUIModel> mItems, Context mContext) {
+    public RecycleAdapter(List<TabItemUIModel> mItems, Context mContext, CalorieTableActivity.FoodItemListener itemListener) {
         this.mItems = mItems;
         this.mContext = mContext;
+        this.mFoodItemListener = itemListener;
     }
 
     @Override
@@ -34,7 +37,26 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.txt.setText(mItems.get(position).getTitle());
+
+        final TabItemUIModel tabItemUIModel = mItems.get(position);
+
+        holder.txt.setText(tabItemUIModel.getTitle());
+        holder.calorieTxt.setText(tabItemUIModel.getCalorieValue() + " kCal");
+
+        holder.imgBtn.setImageResource(tabItemUIModel.getIsFavorite() ? R.drawable.icn_favorite : R.drawable.icn_add_favorite);
+        holder.imgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(tabItemUIModel.getIsFavorite()){
+                    holder.imgBtn.setImageResource(R.drawable.icn_add_favorite);
+                    mFoodItemListener.onFoodRemovedFromFavorite(tabItemUIModel);
+                }else {
+                    holder.imgBtn.setImageResource(R.drawable.icn_favorite);
+                    mFoodItemListener.onFoodMarkedAsFavorite(tabItemUIModel);
+                }
+            }
+        });
     }
 
     @Override
@@ -51,13 +73,19 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         this.mItems = items;
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView txt;
+        public TextView calorieTxt;
+        public ImageButton imgBtn;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             txt = (TextView) itemView.findViewById(R.id.txt_vp_item_list);
+            imgBtn = itemView.findViewById(R.id.favorite_btn);
+            calorieTxt = itemView.findViewById(R.id.calorie_value);
         }
     }
 

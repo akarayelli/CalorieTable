@@ -33,21 +33,30 @@ public class DataUtil {
         FoodType foodType1 = new FoodType("Meyveler","Fruits","Description", "1", colors[1], R.drawable.tab_apple,R.drawable.sptlight_fruit);
         foodTypesDataSource.saveFoodType(foodType1);
 
-        Food food1 = new Food("Elma", "Apple","95","1",false, "1");
-        Food food2 = new Food("Kayısı", "Apricot","29","2",false, "1");
-        Food food3 = new Food("Avokado", "Avocado","300","3",false, "1");
+        Food food100 = new Food("Elma", "Apple","95","100",false, "1");
+        Food food101 = new Food("Kayısı", "Apricot","29","101",false, "1");
+        Food food102 = new Food("Avokado", "Avocado","300","102",false, "1");
 
-        foodDataSource.saveFood(food1);
-        foodDataSource.saveFood(food2);
-        foodDataSource.saveFood(food3);
+        Food food103 = new Food("Amla", "Amla","60","103",false, "1");
+        Food food104 = new Food("Muz", "Banana","115","104",false, "1");
+        Food food105 = new Food("Üzüm", "Grape","70","105",false, "1");
+        Food food106 = new Food("Limon", "Lemon","55","106",false, "1");
+        Food food107 = new Food("Mango", "Mango","75","107",false, "1");
+        Food food108 = new Food("Portakal", "Orange","50","108",false, "1");
+        Food food109 = new Food("Karpuz", "Watermelon","15","109",false, "1");
+        Food food110 = new Food("Guava", "Guava","50","110",false, "1");
 
-        List<Food> foodList1 = new ArrayList<>();
-        foodList1.add(food1);
-        foodList1.add(food2);
-        foodList1.add(food3);
-
-        foodType1.setFoodList(foodList1);
-
+        foodDataSource.saveFood(food100);
+        foodDataSource.saveFood(food101);
+        foodDataSource.saveFood(food102);
+        foodDataSource.saveFood(food103);
+        foodDataSource.saveFood(food104);
+        foodDataSource.saveFood(food105);
+        foodDataSource.saveFood(food106);
+        foodDataSource.saveFood(food107);
+        foodDataSource.saveFood(food108);
+        foodDataSource.saveFood(food109);
+        foodDataSource.saveFood(food110);
 
 
         FoodType foodType2 = new FoodType("Type2", "","Type2 Description","2", colors[2], R.drawable.tab_carrot,R.drawable.sptlight_vegetables);

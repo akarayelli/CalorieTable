@@ -1,6 +1,7 @@
 package com.karayelli.alican.calorietable.list;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 
 import com.karayelli.alican.calorietable.BasePresenter;
 import com.karayelli.alican.calorietable.model.TabItemUIModel;
@@ -17,11 +18,17 @@ public interface CalorieTableContract {
 
         boolean isActive();
 
+        void markFoodAsFavorite(String id);
+
         void showFoodDetail(String id);
 
         void showLoadingTasksError();
 
         void showSuccessfullySavedMessage();
+
+        void showSuccessfullyAddedToFavoriteMessage();
+
+        void showSuccessfullyRemovedFromFavoriteMessage();
 
         void setLoadingIndicator(boolean active);
 
@@ -35,7 +42,9 @@ public interface CalorieTableContract {
 
         void loadFoodTypes();
 
-        void addFoodToFavorite();
+        void addFoodToFavorite(@NonNull TabItemUIModel food);
+
+        void removeFoodFromFavorite(@NonNull TabItemUIModel food);
 
         void openFoodDetail(@NonNull TabItemUIModel requestedFood);
 

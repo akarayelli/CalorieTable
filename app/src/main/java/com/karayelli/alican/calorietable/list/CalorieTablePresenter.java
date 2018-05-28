@@ -118,7 +118,7 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
         List<TabItemUIModel> favTabItemUIModels = new ArrayList<>();
 
         for (Food food: favoriteFoods) {
-            favTabItemUIModels.add(TabItemUIModel.builder().titleTR(food.getLabelTR()).titleEN(food.getLabelEN()).calorieValue(food.getCalorie()).id(food.getId()).build());
+            favTabItemUIModels.add(TabItemUIModel.builder().titleTR(food.getLabelTR()).titleEN(food.getLabelEN()).calorieValue(food.getCalorie()).id(food.getId()).isFavorite(food.getFavorite()).build());
         }
 
 
@@ -128,7 +128,7 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
 
             List<TabItemUIModel> tabItemUIModels = new ArrayList<>();
             for (Food food: foodType.getFoodList()) {
-                tabItemUIModels.add(TabItemUIModel.builder().titleTR(food.getLabelTR()).titleEN(food.getLabelEN()).calorieValue(food.getCalorie()).id(food.getId()).build());
+                tabItemUIModels.add(TabItemUIModel.builder().titleTR(food.getLabelTR()).titleEN(food.getLabelEN()).calorieValue(food.getCalorie()).id(food.getId()).isFavorite(food.getFavorite()).build());
             }
 
             TabUIModel tabUIModel = TabUIModel.builder().id(foodType.getId())
@@ -147,8 +147,16 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
 
 
     @Override
-    public void addFoodToFavorite() {
+    public void addFoodToFavorite(@NonNull TabItemUIModel food) {
 
+        mFoodDataSource.changeFavoriteStatus(food.getId(), true);
+        mCalorieTableListView.showSuccessfullyAddedToFavoriteMessage();
+    }
+
+    @Override
+    public void removeFoodFromFavorite(@NonNull TabItemUIModel food) {
+        mFoodDataSource.changeFavoriteStatus(food.getId(), false);
+        mCalorieTableListView.showSuccessfullyRemovedFromFavoriteMessage();
     }
 
     @Override

@@ -14,7 +14,7 @@ public class TabItemUIModel {
     private String titleTR;
     private String titleEN;
     private String calorieValue;
-
+    private Boolean isFavorite;
 
     public String getTitle(){
 

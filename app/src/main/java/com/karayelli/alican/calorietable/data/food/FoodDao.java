@@ -32,6 +32,12 @@ public interface FoodDao {
     @Query("SELECT * FROM food WHERE type_id = :typeId")
     List<Food> getFoodsByTypeId(String typeId);
 
+    @Query("SELECT * FROM food WHERE food_id = :id")
+    Food getFoodById(String id);
+
+    @Query("UPDATE food SET is_favorite = :isFavorite WHERE food_id = :id")
+    void updateFavoriteStatus( String id, Boolean isFavorite);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFood(Food food);
 }

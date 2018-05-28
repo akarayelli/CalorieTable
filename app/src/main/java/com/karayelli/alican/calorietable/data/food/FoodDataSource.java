@@ -96,6 +96,36 @@ public class FoodDataSource implements IFoodDataSource {
 
 
     @Override
+    public void changeFavoriteStatus(final String foodId, final Boolean favorite) {
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                mFoodDao.updateFavoriteStatus(foodId, favorite);
+            }
+        };
+        mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void getFoodById(final String foodId, @NonNull final GetFoodCallback callback) {
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+               final Food food = mFoodDao.getFoodById(foodId);
+               mAppExecutors.mainThread().execute(new Runnable() {
+                   @Override
+                   public void run() {
+                       callback.onFoodLoaded(food);
+                   }
+               });
+            }
+        };
+        mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
     public void saveFood(@NonNull final Food food) {
         checkNotNull(food);
         Runnable saveRunnable = new Runnable() {
