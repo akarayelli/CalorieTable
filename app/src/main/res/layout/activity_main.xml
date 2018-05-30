@@ -5,7 +5,7 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#423752"
+    android:background="@color/mainScreenBgColor"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -22,9 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:title="Deneme"
+            app:title="@string/app_name"
             app:expandedTitleTextAppearance="@null"
-            app:contentScrim="#605271"
+            app:contentScrim="@color/mainScreenToolbarScrimColor"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -62,13 +62,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-        app:ntb_badge_size="12sp"
-        app:ntb_badge_bg_color="#ffff0000"
-        app:ntb_badge_gravity="top"
-        app:ntb_badge_position="left"
-        app:ntb_badge_title_color="#ffffffff"
-        app:ntb_badge_use_typeface="true"
-        app:ntb_badged="true"
+        app:ntb_badged="false"
+        app:ntb_bg_color="@color/mainScreenToolbarScrimColor"
+        app:ntb_inactive_color="@color/white"
         app:ntb_typeface="fonts/agency.ttf"/>
 
 </android.support.design.widget.CoordinatorLayout>

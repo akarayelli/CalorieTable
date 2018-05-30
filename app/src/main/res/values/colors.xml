@@ -7,4 +7,14 @@
     <color name="favoriteTabColor">#df5a55</color>
     <color name="titleTextColor">#9F90AF</color>
 
+
+    <color name="mainScreenBgColor">#272D65</color>
+    <color name="mainScreenToolbarScrimColor">#37407A</color>
+    <color name="mainScreenListCellBgColor">#364386</color>
+    <color name="mainScreenListCellTxtColor">#FFFFFF</color>
+
+
+
 </resources>
+
+

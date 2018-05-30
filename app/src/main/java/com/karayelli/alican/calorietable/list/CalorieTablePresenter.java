@@ -150,6 +150,7 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
     public void addFoodToFavorite(@NonNull TabItemUIModel food) {
 
         mFoodDataSource.changeFavoriteStatus(food.getId(), true);
+
         mCalorieTableListView.showSuccessfullyAddedToFavoriteMessage();
     }
 

@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.karayelli.alican.calorietable.BaseActivity;
 import com.karayelli.alican.calorietable.Injection;
 import com.karayelli.alican.calorietable.R;
-import com.karayelli.alican.calorietable.data.food.Food;
 import com.karayelli.alican.calorietable.model.TabItemUIModel;
 import com.karayelli.alican.calorietable.model.TabUIModel;
 
@@ -33,8 +32,8 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
 
     private CalorieTableContract.Presenter mPresenter;
-    private RecycleAdapter mListAdapter;
-
+    private List<RecycleAdapter> mAdapterList;
+    private NavigationTabBar mNavigationTabBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,6 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         setContentView(R.layout.activity_main);
 
         mPresenter = new CalorieTablePresenter(Injection.provideFoodTypesDataSource(getApplicationContext()), Injection.provideFoodDataSource(getApplicationContext()), this);
-
         initUI(new ArrayList<TabUIModel>(), new ArrayList<TabItemUIModel>());
     }
 
@@ -57,6 +55,8 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     private void initUI(final List<TabUIModel> tabUIModels, final List<TabItemUIModel> favoriteItemList) {
 
         // ***************  VIEW PAGER **********************
+        mAdapterList = new ArrayList<>((tabUIModels.size() == 0 ? 0 : tabUIModels.size() + 1));
+
         final ViewPager viewPager = findViewById(R.id.vp_horizontal_ntb);
         viewPager.setAdapter(new PagerAdapter() {
             @Override
@@ -89,13 +89,15 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                 if(position == 0){
                     Timber.d("Will initialize first list (FAVORITE)...");
 
-                     mListAdapter = new RecycleAdapter(favoriteItemList, CalorieTableActivity.this, mItemListener);
-                    recyclerView.setAdapter(mListAdapter);
+                    RecycleAdapter adapter = new RecycleAdapter(favoriteItemList, CalorieTableActivity.this, mItemListener);
+                    recyclerView.setAdapter(adapter);
+                    mAdapterList.add(position,adapter);
 
                 }else{
                     Timber.d("Will initialize food category list...");
-                    mListAdapter= new  RecycleAdapter(tabUIModels.get(position -1 ).getTabItemUIModels(), CalorieTableActivity.this, mItemListener);
-                    recyclerView.setAdapter(mListAdapter);
+                    RecycleAdapter adapter = new  RecycleAdapter(tabUIModels.get(position -1 ).getTabItemUIModels(), CalorieTableActivity.this, mItemListener);
+                    recyclerView.setAdapter(adapter);
+                    mAdapterList.add(position,adapter);
 
                 }
                 //************************************************************
@@ -112,7 +114,8 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
                     @Override
                     public boolean onQueryTextChange(String query) {
-                        mListAdapter.getFilter().filter(query);
+                        RecycleAdapter adapter = mAdapterList.get(position);
+                        adapter.getFilter().filter(query);
                         return false;
                     }
                 });
@@ -130,7 +133,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
         final String[] colors = getResources().getStringArray(R.array.default_preview);
 
-        final NavigationTabBar navigationTabBar = findViewById(R.id.ntb_horizontal);
+        mNavigationTabBar = findViewById(R.id.ntb_horizontal);
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
 
 
@@ -153,14 +156,14 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
             );
         }
 
-        navigationTabBar.setModels(models);
-        navigationTabBar.setViewPager(viewPager, 2);
+        mNavigationTabBar.setModels(models);
+        mNavigationTabBar.setViewPager(viewPager, 0);
 
         //****************************************************************************
 
 
         //IMPORTANT: ENABLE SCROLL BEHAVIOUR IN COORDINATOR LAYOUT
-        navigationTabBar.setBehaviorEnabled(true);
+        mNavigationTabBar.setBehaviorEnabled(true);
 
         /*
         navigationTabBar.setOnTabBarSelectedIndexListener(new NavigationTabBar.OnTabBarSelectedIndexListener() {
@@ -175,9 +178,14 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         });
         */
 
-        navigationTabBar.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mNavigationTabBar.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(final int position) {
 
                 ImageView backdropImageView = findViewById(R.id.backdrop);
 
@@ -185,21 +193,17 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                 collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.white));
                 collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
 
+
                 if(position == 0){
                     Timber.d("Will initialize first tab (FAVORITE)...");
-                    backdropImageView.setImageResource(R.drawable.sptlight_favorite);
+                    //backdropImageView.setImageResource(R.drawable.sptlight_favorite);
                     collapsingToolbarLayout.setTitle(getString(R.string.favorite_tab_title));
                 }else{
                     Timber.d("Will initialize food category tab...");
                     TabUIModel tabUIModel = tabUIModels.get(position -1);
-                    backdropImageView.setImageResource(tabUIModel.getCollapseImage());
+                    //backdropImageView.setImageResource(tabUIModel.getCollapseImage());
                     collapsingToolbarLayout.setTitle(tabUIModel.getTitle());
                 }
-            }
-
-            @Override
-            public void onPageSelected(final int position) {
-
             }
 
             @Override
@@ -268,15 +272,15 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     @Override
     public void showSuccessfullyAddedToFavoriteMessage() {
 
-
         mPresenter.loadFoodTypes();
-
         Toast.makeText(this, getString(R.string.successfully_added_favorite), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showSuccessfullyRemovedFromFavoriteMessage() {
-        mPresenter.loadFoodTypes();
+        //mPresenter.loadFoodTypes();
+
+        mNavigationTabBar.deselect();
         Toast.makeText(this, getString(R.string.successfully_removed_favorite), Toast.LENGTH_LONG).show();
     }
 

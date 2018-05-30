@@ -36,7 +36,6 @@ public class DataUtil {
         Food food100 = new Food("Elma", "Apple","95","100",false, "1");
         Food food101 = new Food("Kayısı", "Apricot","29","101",false, "1");
         Food food102 = new Food("Avokado", "Avocado","300","102",false, "1");
-
         Food food103 = new Food("Amla", "Amla","60","103",false, "1");
         Food food104 = new Food("Muz", "Banana","115","104",false, "1");
         Food food105 = new Food("Üzüm", "Grape","70","105",false, "1");
@@ -45,6 +44,13 @@ public class DataUtil {
         Food food108 = new Food("Portakal", "Orange","50","108",false, "1");
         Food food109 = new Food("Karpuz", "Watermelon","15","109",false, "1");
         Food food110 = new Food("Guava", "Guava","50","110",false, "1");
+        Food food111 = new Food("Böğürtlen", "Blackberry","25","111",false, "1");
+        Food food112 = new Food("Yaban Mersini", "Blueberry","30","112",false, "1");
+        Food food113 = new Food("Kavun", "Melon","26","113",false, "1");
+        Food food114 = new Food("Şeftali", "Peach","36","114",false, "1");
+        Food food115 = new Food("Armut", "Pear","64","115",false, "1");
+        Food food116 = new Food("Ananas(2 Dilim)", "Pineapple(2 Rings)","50","116",false, "1");
+        Food food117 = new Food("Çilek", "Strawberry","27","117",false, "1");
 
         foodDataSource.saveFood(food100);
         foodDataSource.saveFood(food101);
@@ -57,45 +63,87 @@ public class DataUtil {
         foodDataSource.saveFood(food108);
         foodDataSource.saveFood(food109);
         foodDataSource.saveFood(food110);
+        foodDataSource.saveFood(food111);
+        foodDataSource.saveFood(food112);
+        foodDataSource.saveFood(food113);
+        foodDataSource.saveFood(food114);
+        foodDataSource.saveFood(food115);
+        foodDataSource.saveFood(food116);
+        foodDataSource.saveFood(food117);
 
 
-        FoodType foodType2 = new FoodType("Type2", "","Type2 Description","2", colors[2], R.drawable.tab_carrot,R.drawable.sptlight_vegetables);
+        FoodType foodType2 = new FoodType("Sebzeler", "Vegetables","Description","2", colors[2], R.drawable.tab_carrot,R.drawable.sptlight_vegetables);
         foodTypesDataSource.saveFoodType(foodType2);
 
-        Food food4 = new Food("Food4","","100","4",false, "2");
-        Food food5 = new Food("Food5","","200","5",false, "2");
-        Food food6 = new Food("Food6","","300","6",false, "2");
+        Food food200 = new Food("Enginar","Artichoke","67","200",false, "2");
+        Food food201 = new Food("Kuşkonmaz","Asparagus(1 Cup)","36","201",false, "2");
+        Food food202 = new Food("Brokoli","Broccoli(1 Cup)","40","202",false, "2");
+        Food food203 = new Food("Brüksel Lahanası","Brussels Sprouts","56","203",false, "2");
+        Food food204 = new Food("Balkabağı","Butternut Squash","139","204",false, "2");
+        Food food205 = new Food("Lahana","Cabbage","31","205",false, "2");
+        Food food206 = new Food("Havuç","Carrot","30","206",false, "2");
+        Food food207 = new Food("Karnıbahar","Cauliflower","28","207",false, "2");
+        Food food208 = new Food("Kereviz","Celery(3 Small Stalks)","9","208",false, "2");
+        Food food209 = new Food("Pazı","Chard","32","209",false, "2");
+        Food food210 = new Food("Mısır","Corn","96","210",false, "2");
+        Food food211 = new Food("Salatalık","Cucumber","15","211",false, "2");
+        Food food212 = new Food("Fasulye","Green Beans","32","212",false, "2");
+        Food food213 = new Food("Biber","Green Pepper","22","213",false, "2");
+        Food food214 = new Food("Pancar","Beetroot","43","214",false, "2");
+        Food food215 = new Food("Turp","Radish","19","215",false, "2");
+        Food food216 = new Food("Pırasa","Leek","52","216",false, "2");
+        Food food217 = new Food("Marul","Lettuce","14","217",false, "2");
+        Food food218 = new Food("Maydanoz","Parsley","44","218",false, "2");
+        Food food219 = new Food("Patlıcan","Eggplant","25","219",false, "2");
 
-        foodDataSource.saveFood(food4);
-        foodDataSource.saveFood(food5);
-        foodDataSource.saveFood(food6);
+        foodDataSource.saveFood(food200);
+        foodDataSource.saveFood(food201);
+        foodDataSource.saveFood(food202);
+        foodDataSource.saveFood(food203);
+        foodDataSource.saveFood(food204);
+        foodDataSource.saveFood(food205);
+        foodDataSource.saveFood(food206);
+        foodDataSource.saveFood(food207);
+        foodDataSource.saveFood(food208);
+        foodDataSource.saveFood(food209);
+        foodDataSource.saveFood(food210);
+        foodDataSource.saveFood(food211);
+        foodDataSource.saveFood(food212);
+        foodDataSource.saveFood(food213);
+        foodDataSource.saveFood(food214);
+        foodDataSource.saveFood(food215);
+        foodDataSource.saveFood(food216);
+        foodDataSource.saveFood(food217);
+        foodDataSource.saveFood(food218);
+        foodDataSource.saveFood(food219);
 
 
-        List<Food> foodList2 = new ArrayList<>();
-        foodList2.add(food4);
-        foodList2.add(food5);
-        foodList2.add(food6);
-
-        foodType2.setFoodList(foodList2);
-
-
-
-        FoodType foodType3 = new FoodType("Type3","","Type3 Description","3", colors[3], R.drawable.tab_milk,R.drawable.sptlight_milk);
+        FoodType foodType3 = new FoodType("Süt Ürünleri","Dairy Foods","Description","3", colors[3], R.drawable.tab_milk,R.drawable.sptlight_milk);
         foodTypesDataSource.saveFoodType(foodType3);
 
-        Food food7 = new Food("Food7", "","100","7",false,"3");
-        Food food8 = new Food("Food8", "","200","8",false,"3");
-        Food food9 = new Food("Food9","","300","9",true,"3");
-        Food food10 = new Food("Food10","","100","10",false,"3");
-        Food food11 = new Food("Food11","","200","11",true,"3");
-        Food food12 = new Food("Food12","","300","12",false,"3");
+        Food food300 = new Food("Süt(Yağlı)", "Milk, whole","68","300",false,"3");
+        Food food301 = new Food("Ayran", "Buttermilk, whole","38","301",false,"3");
+        Food food302 = new Food("Beyaz Peynir", "Feta Cheese","275","302",false,"3");
+        Food food303 = new Food("Dil Peyniri","String Cheese","330","303",false,"3");
+        Food food304 = new Food("İnek Sütü","Cow's Milk","61","304",false,"3");
+        Food food305 = new Food("Kaşar Peyniri","Kashar Cheese","413","305",false,"3");
+        Food food306 = new Food("Koyun Sütü","Raw Ewe Milk ","108","306",false,"3");
+        Food food307 = new Food("Krem Peynir","Camambert","349","307",false,"3");
+        Food food308 = new Food("Lor Peyniri","Curd Cheese","90","308",false,"3");
+        Food food309 = new Food("Tulum Peyniri","Bryndza","257","309",false,"3");
+        Food food310 = new Food("Yoğurt(Yağlı)","Yogurt, whole","95","310",false,"3");
 
-        foodDataSource.saveFood(food7);
-        foodDataSource.saveFood(food8);
-        foodDataSource.saveFood(food9);
-        foodDataSource.saveFood(food10);
-        foodDataSource.saveFood(food11);
-        foodDataSource.saveFood(food12);
+        foodDataSource.saveFood(food300);
+        foodDataSource.saveFood(food301);
+        foodDataSource.saveFood(food302);
+        foodDataSource.saveFood(food303);
+        foodDataSource.saveFood(food304);
+        foodDataSource.saveFood(food305);
+        foodDataSource.saveFood(food306);
+        foodDataSource.saveFood(food307);
+        foodDataSource.saveFood(food308);
+        foodDataSource.saveFood(food309);
+        foodDataSource.saveFood(food310);
 
 
         FoodType foodType4 = new FoodType("Type4","","Type4 Description","4", colors[4], R.drawable.tab_fish,R.drawable.sptlight_fish);
@@ -109,16 +157,6 @@ public class DataUtil {
         foodDataSource.saveFood(food13);
         foodDataSource.saveFood(food14);
         foodDataSource.saveFood(food15);
-
-
-        List<Food> foodList3 = new ArrayList<>();
-        foodList3.add(food7);
-        foodList3.add(food8);
-        foodList3.add(food9);
-        foodList3.add(food10);
-        foodList3.add(food11);
-        foodList3.add(food12);
-        foodType3.setFoodList(foodList3);
 
 
 

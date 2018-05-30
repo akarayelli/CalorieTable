@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Kalori Tablosu</string>
     <string name="favorite_tab_title">Favoriler</string>
+    <string name="search_query_hint">Besin İsmi...</string>
 
 
     <string name="successfully_added_favorite">Favorilerinize başarıyla eklendi!</string>

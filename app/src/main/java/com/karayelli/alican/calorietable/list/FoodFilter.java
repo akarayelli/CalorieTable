@@ -36,9 +36,9 @@ public class FoodFilter extends Filter{
             for (int i=0;i<filterList.size();i++)
             {
                 //CHECK
+
                 if(filterList.get(i).getTitle().toUpperCase().contains(constraint))
                 {
-                    //ADD PLAYER TO FILTERED PLAYERS
                     filteredPlayers.add(filterList.get(i));
                 }
             }
