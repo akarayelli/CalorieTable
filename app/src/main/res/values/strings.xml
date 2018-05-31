@@ -3,7 +3,6 @@
     <string name="favorite_tab_title">Favoriler</string>
     <string name="search_query_hint">Besin İsmi...</string>
 
-
     <string name="successfully_added_favorite">Favorilerinize başarıyla eklendi!</string>
-    <string name="successfully_removed_favorite">Favorilerinize başarıyla silindi!</string>
+    <string name="successfully_removed_favorite">Favorilerinizden başarıyla silindi!</string>
 </resources>

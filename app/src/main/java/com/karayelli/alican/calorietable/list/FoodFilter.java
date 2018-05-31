@@ -30,21 +30,19 @@ public class FoodFilter extends Filter{
         {
             //CHANGE TO UPPER
             constraint=constraint.toString().toUpperCase();
-            //STORE OUR FILTERED PLAYERS
-            ArrayList<TabItemUIModel> filteredPlayers=new ArrayList<>();
+
+            ArrayList<TabItemUIModel> filteredFoods=new ArrayList<>();
 
             for (int i=0;i<filterList.size();i++)
             {
-                //CHECK
-
                 if(filterList.get(i).getTitle().toUpperCase().contains(constraint))
                 {
-                    filteredPlayers.add(filterList.get(i));
+                    filteredFoods.add(filterList.get(i));
                 }
             }
 
-            results.count=filteredPlayers.size();
-            results.values=filteredPlayers;
+            results.count=filteredFoods.size();
+            results.values=filteredFoods;
         }else
         {
             results.count=filterList.size();
