@@ -14,7 +14,7 @@ public interface CalorieTableContract {
 
     interface View {
 
-        void showCalorieTable(List<TabUIModel> tabUIModels, List<TabItemUIModel> favoriteTabData);
+        void showCalorieTable(List<TabUIModel> tabUIModels, List<TabItemUIModel> favoriteTabData, Boolean initialize);
 
         boolean isActive();
 

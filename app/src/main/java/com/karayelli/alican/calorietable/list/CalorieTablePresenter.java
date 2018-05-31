@@ -2,6 +2,8 @@ package com.karayelli.alican.calorietable.list;
 
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabItem;
+import android.util.Pair;
 
 import com.karayelli.alican.calorietable.data.food.Food;
 import com.karayelli.alican.calorietable.data.food.FoodDataSource;
@@ -24,7 +26,6 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
     private final FoodTypesDataSource mFoodTypesDataSource;
     private final FoodDataSource mFoodDataSource;
     private final CalorieTableContract.View mCalorieTableListView;
-
 
     public CalorieTablePresenter(@NonNull FoodTypesDataSource mFoodTypesDataSource, @NonNull FoodDataSource mFoodDataSource, @NonNull CalorieTableContract.View mCalorieTableListView) {
         this.mFoodTypesDataSource = mFoodTypesDataSource;
@@ -58,69 +59,40 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
             mCalorieTableListView.setLoadingIndicator(true);
         }
 
-        final List<FoodType> foodTypeListToShow = new ArrayList<>();
 
-        mFoodTypesDataSource.getFoodTypes(new IFoodTypesDataSource.LoadFoodTypesCallback() {
+        fetchFoodTypesFromDatabase(new LoadFoodTypesFromDatabaseCallback() {
             @Override
-            public void onFoodTypesLoaded(final List<FoodType> foodTypes) {
+            public void onFoodsLoaded(List<FoodType> foodTypes, List<Food> favoriteFoods) {
 
-
-                for (final FoodType foodType : foodTypes){
-
-                    mFoodDataSource.getFoodsByTypeId(foodType.getId(), new IFoodDataSource.LoadFoodsCallback() {
-                        @Override
-                        public void onFoodsLoaded(List<Food> foods) {
-
-                            foodType.setFoodList(foods);
-                            foodTypeListToShow.add(foodType);
-
-                            if(foodTypeListToShow.size() == foodTypes.size()){
-                                Timber.d("All food type items fetched!");
-
-
-                                mFoodDataSource.getFavoriteFoods(new IFoodDataSource.LoadFoodsCallback() {
-                                    @Override
-                                    public void onFoodsLoaded(List<Food> foods) {
-
-                                        if (!mCalorieTableListView.isActive()){
-                                            return;
-                                        }
-
-                                        if (showLoadingUI){
-                                            mCalorieTableListView.setLoadingIndicator(false);
-                                        }
-                                        processLayoutData(foodTypes, foods);
-                                    }
-
-                                    @Override
-                                    public void onDataNotAvailable() {
-                                        Timber.e("No data found for favorite foods!");
-                                    }
-                                });
-
-                            }
-                        }
-                        @Override
-                        public void onDataNotAvailable() {}
-                    });
+                if (!mCalorieTableListView.isActive()){
+                    return;
                 }
+
+                if (showLoadingUI){
+                    mCalorieTableListView.setLoadingIndicator(false);
+                }
+
+                Pair data = processLayoutData(foodTypes, favoriteFoods);
+                mCalorieTableListView.showCalorieTable((List<TabUIModel>) data.first, (List<TabItemUIModel>) data.second, true);
             }
+
             @Override
             public void onDataNotAvailable() {
-                Timber.e("No data found for food types!");
+                if (showLoadingUI){
+                    mCalorieTableListView.setLoadingIndicator(false);
+                }
             }
         });
 
     }
 
-    private void processLayoutData(List<FoodType> foodTypes, List<Food> favoriteFoods){
+    private Pair<List<TabUIModel>, List<TabItemUIModel>> processLayoutData(List<FoodType> foodTypes, List<Food> favoriteFoods){
 
         List<TabItemUIModel> favTabItemUIModels = new ArrayList<>();
 
         for (Food food: favoriteFoods) {
             favTabItemUIModels.add(TabItemUIModel.builder().titleTR(food.getLabelTR()).titleEN(food.getLabelEN()).calorieValue(food.getCalorie()).id(food.getId()).isFavorite(food.getFavorite()).build());
         }
-
 
         List<TabUIModel> tabUIModels = new ArrayList<>();
 
@@ -142,7 +114,7 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
             tabUIModels.add(tabUIModel);
         }
 
-        mCalorieTableListView.showCalorieTable(tabUIModels, favTabItemUIModels);
+        return new Pair<>(tabUIModels,favTabItemUIModels);
     }
 
 
@@ -151,7 +123,18 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
 
         mFoodDataSource.changeFavoriteStatus(food.getId(), true);
 
-        mCalorieTableListView.showSuccessfullyAddedToFavoriteMessage();
+        fetchFoodTypesFromDatabase(new LoadFoodTypesFromDatabaseCallback() {
+            @Override
+            public void onFoodsLoaded(List<FoodType> foodTypes, List<Food> favoriteFoods) {
+
+                Pair data = processLayoutData(foodTypes,favoriteFoods);
+                mCalorieTableListView.showCalorieTable((List<TabUIModel>)data.first, (List<TabItemUIModel>) data.second, false);
+                mCalorieTableListView.showSuccessfullyAddedToFavoriteMessage();
+            }
+
+            @Override
+            public void onDataNotAvailable() {}
+        });
     }
 
     @Override
@@ -166,4 +149,60 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
     }
 
 
+    private void fetchFoodTypesFromDatabase(final LoadFoodTypesFromDatabaseCallback callback){
+
+        final List<FoodType> foodTypeListToShow = new ArrayList<>();
+        mFoodTypesDataSource.getFoodTypes(new IFoodTypesDataSource.LoadFoodTypesCallback() {
+            @Override
+            public void onFoodTypesLoaded(final List<FoodType> foodTypes) {
+
+                for (final FoodType foodType : foodTypes){
+
+                    mFoodDataSource.getFoodsByTypeId(foodType.getId(), new IFoodDataSource.LoadFoodsCallback() {
+                        @Override
+                        public void onFoodsLoaded(List<Food> foods) {
+
+                            foodType.setFoodList(foods);
+                            foodTypeListToShow.add(foodType);
+
+                            if(foodTypeListToShow.size() == foodTypes.size()){
+                                Timber.d("All food type items fetched!");
+
+                                mFoodDataSource.getFavoriteFoods(new IFoodDataSource.LoadFoodsCallback() {
+                                    @Override
+                                    public void onFoodsLoaded(List<Food> foods) {
+                                        callback.onFoodsLoaded(foodTypeListToShow, foods);
+                                    }
+
+                                    @Override
+                                    public void onDataNotAvailable() {
+                                        Timber.e("No data found for favorite foods!");
+                                        callback.onDataNotAvailable();
+                                    }
+                                });
+
+                            }
+                        }
+                        @Override
+                        public void onDataNotAvailable() {
+                            callback.onDataNotAvailable();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onDataNotAvailable() {
+                Timber.e("No data found for food types!");
+                callback.onDataNotAvailable();
+            }
+        });
+    }
+
+
+    interface LoadFoodTypesFromDatabaseCallback {
+
+        void onFoodsLoaded(List<FoodType> foodTypes, List<Food> favoriteFoods);
+
+        void onDataNotAvailable();
+    }
 }

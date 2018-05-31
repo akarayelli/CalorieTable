@@ -22,6 +22,7 @@ import com.karayelli.alican.calorietable.model.TabItemUIModel;
 import com.karayelli.alican.calorietable.model.TabUIModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import devlight.io.library.ntb.NavigationTabBar;
@@ -55,7 +56,8 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     private void initUI(final List<TabUIModel> tabUIModels, final List<TabItemUIModel> favoriteItemList) {
 
         // ***************  VIEW PAGER **********************
-        mAdapterList = new ArrayList<>((tabUIModels.size() == 0 ? 0 : tabUIModels.size() + 1));
+        mAdapterList = new ArrayList<>() ;
+        for(int i=0; i<=tabUIModels.size(); i++){ mAdapterList.add(null); }
 
         final ViewPager viewPager = findViewById(R.id.vp_horizontal_ntb);
         viewPager.setAdapter(new PagerAdapter() {
@@ -245,8 +247,13 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     }
 
     @Override
-    public void showCalorieTable(List<TabUIModel> tabUIModels, List<TabItemUIModel> favoriteTabData) {
-        this.initUI(tabUIModels, favoriteTabData);
+    public void showCalorieTable(List<TabUIModel> tabUIModels, List<TabItemUIModel> favoriteTabData, Boolean initialize) {
+        if(initialize) {
+            this.initUI(tabUIModels, favoriteTabData);
+        }else{
+            mAdapterList.get(0).replaceData(favoriteTabData);
+            mNavigationTabBar.setModelIndex(0,true);
+        }
     }
 
     @Override
@@ -278,9 +285,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
     @Override
     public void showSuccessfullyRemovedFromFavoriteMessage() {
-        //mPresenter.loadFoodTypes();
-
-        mNavigationTabBar.deselect();
+        mPresenter.loadFoodTypes();
         Toast.makeText(this, getString(R.string.successfully_removed_favorite), Toast.LENGTH_LONG).show();
     }
 
