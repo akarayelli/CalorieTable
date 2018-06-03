@@ -5,4 +5,6 @@
 
     <string name="successfully_added_favorite">Favorilerinize başarıyla eklendi!</string>
     <string name="successfully_removed_favorite">Favorilerinizden başarıyla silindi!</string>
+
+    <string name="calorie_info">*Değerler 100gr için belirtilmiştir.</string>
 </resources>

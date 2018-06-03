@@ -5,4 +5,7 @@
 
     <string name="successfully_added_favorite">Food added to favorites!</string>
     <string name="successfully_removed_favorite">Food removed from favorites!</string>
+
+    <string name="calorie_info">*Values are stated for 100 grams.</string>
+
 </resources>

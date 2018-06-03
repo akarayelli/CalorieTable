@@ -15,6 +15,7 @@ import com.karayelli.alican.calorietable.model.TabItemUIModel;
 import com.karayelli.alican.calorietable.model.TabUIModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import timber.log.Timber;
@@ -103,6 +104,8 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
                 tabItemUIModels.add(TabItemUIModel.builder().titleTR(food.getLabelTR()).titleEN(food.getLabelEN()).calorieValue(food.getCalorie()).id(food.getId()).isFavorite(food.getFavorite()).build());
             }
 
+            Collections.sort(tabItemUIModels, (p1, p2) -> p1.getTitle().compareTo(p2.getTitle()));
+
             TabUIModel tabUIModel = TabUIModel.builder().id(foodType.getId())
                     .titleTR(foodType.getLabelTR())
                     .titleEN(foodType.getLabelEN())
@@ -113,6 +116,9 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
 
             tabUIModels.add(tabUIModel);
         }
+
+
+        // if you only want to sort the list of Vehicles on their email address
 
         return new Pair<>(tabUIModels,favTabItemUIModels);
     }

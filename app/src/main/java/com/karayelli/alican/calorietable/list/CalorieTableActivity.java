@@ -1,16 +1,20 @@
 package com.karayelli.alican.calorietable.list;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.TintableImageSourceView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -40,16 +44,24 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        // Hide status bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
-        mPresenter = new CalorieTablePresenter(Injection.provideFoodTypesDataSource(getApplicationContext()), Injection.provideFoodDataSource(getApplicationContext()), this);
         initUI(new ArrayList<TabUIModel>(), new ArrayList<TabItemUIModel>());
+
+        mPresenter = new CalorieTablePresenter(Injection.provideFoodTypesDataSource(getApplicationContext()), Injection.provideFoodDataSource(getApplicationContext()), this);
+        mPresenter.start();
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.start();
+        //mPresenter.start();
     }
 
 
@@ -63,7 +75,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         viewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
-                return (tabUIModels.size() == 0 ? 0 : tabUIModels.size() + 1);
+                return (tabUIModels.size() == 0 ? 1 : tabUIModels.size() + 1);
             }
 
             @Override
@@ -125,6 +137,9 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                 EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
                 searchEditText.setTextColor(getResources().getColor(R.color.white));
                 searchEditText.setHintTextColor(getResources().getColor(R.color.colorAccent));
+
+                ImageView searchButton = (ImageView) searchView.findViewById (android.support.v7.appcompat.R.id.search_button);
+                searchButton.setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
                 // ***********************************************************
 
                 container.addView(view);
@@ -133,7 +148,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         });
 
 
-        final String[] colors = getResources().getStringArray(R.array.default_preview);
+        final String[] colors = getResources().getStringArray(R.array.tab_color);
 
         mNavigationTabBar = findViewById(R.id.ntb_horizontal);
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
@@ -166,36 +181,32 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
         //IMPORTANT: ENABLE SCROLL BEHAVIOUR IN COORDINATOR LAYOUT
         mNavigationTabBar.setBehaviorEnabled(true);
+        mNavigationTabBar.setTitleSize(8.0f);
 
-        /*
-        navigationTabBar.setOnTabBarSelectedIndexListener(new NavigationTabBar.OnTabBarSelectedIndexListener() {
+        mNavigationTabBar.setOnTabBarSelectedIndexListener(new NavigationTabBar.OnTabBarSelectedIndexListener() {
             @Override
             public void onStartTabSelected(final NavigationTabBar.Model model, final int index) {
+                Timber.d("onStartTabSelected");
             }
 
             @Override
             public void onEndTabSelected(final NavigationTabBar.Model model, final int index) {
-                model.hideBadge();
+                Timber.d("onEndTabSelected");
             }
         });
-        */
+
 
         mNavigationTabBar.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(final int position) {
+                Timber.d("Page scrolled...");
 
                 ImageView backdropImageView = findViewById(R.id.backdrop);
 
                 final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar);
                 collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.white));
                 collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
-
-
+                
                 if(position == 0){
                     Timber.d("Will initialize first tab (FAVORITE)...");
                     //backdropImageView.setImageResource(R.drawable.sptlight_favorite);
@@ -209,8 +220,13 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
             }
 
             @Override
-            public void onPageScrollStateChanged(final int state) {
+            public void onPageSelected(final int position) {
+                Timber.d("Page selected...");
+            }
 
+            @Override
+            public void onPageScrollStateChanged(final int state) {
+                Timber.d("Page scroll state changed...");
             }
         });
 
