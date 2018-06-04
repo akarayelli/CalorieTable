@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.karayelli.alican.calorietable.BaseActivity;
 import com.karayelli.alican.calorietable.Injection;
 import com.karayelli.alican.calorietable.R;
@@ -86,6 +88,16 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
                 container.removeView((View) object);
+
+                final View view = LayoutInflater.from(
+                        getBaseContext()).inflate(R.layout.item_vp_list, null, false);
+
+               AdView adView = view.findViewById(R.id.adView);
+
+               if(adView != null) {
+                   adView.destroy();
+               }
+
             }
 
             @Override
@@ -99,17 +111,17 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
 
-
+                RecycleAdapter adapter = null;
                 if(position == 0){
                     Timber.d("Will initialize first list (FAVORITE)...");
 
-                    RecycleAdapter adapter = new RecycleAdapter(favoriteItemList, CalorieTableActivity.this, mItemListener);
+                    adapter = new RecycleAdapter(favoriteItemList, CalorieTableActivity.this, mItemListener);
                     recyclerView.setAdapter(adapter);
                     mAdapterList.add(position,adapter);
 
                 }else{
                     Timber.d("Will initialize food category list...");
-                    RecycleAdapter adapter = new  RecycleAdapter(tabUIModels.get(position -1 ).getTabItemUIModels(), CalorieTableActivity.this, mItemListener);
+                    adapter = new  RecycleAdapter(tabUIModels.get(position -1 ).getTabItemUIModels(), CalorieTableActivity.this, mItemListener);
                     recyclerView.setAdapter(adapter);
                     mAdapterList.add(position,adapter);
 
@@ -120,6 +132,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
                 //************************* FILTERABLE SEARCH ****************
                 final SearchView searchView = view.findViewById(R.id.mSearch);
+                RecycleAdapter finalAdapter = adapter;
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -128,8 +141,8 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
                     @Override
                     public boolean onQueryTextChange(String query) {
-                        RecycleAdapter adapter = mAdapterList.get(position);
-                        adapter.getFilter().filter(query);
+                       // RecycleAdapter adapter = mAdapterList.get(position);
+                        finalAdapter.getFilter().filter(query);
                         return false;
                     }
                 });
@@ -140,6 +153,16 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
                 ImageView searchButton = (ImageView) searchView.findViewById (android.support.v7.appcompat.R.id.search_button);
                 searchButton.setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
+                // ***********************************************************
+
+
+                //************************* AD VIEW ****************
+
+                /*
+                final AdView adView = view.findViewById(R.id.adView);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adView.loadAd(adRequest);
+                */
                 // ***********************************************************
 
                 container.addView(view);

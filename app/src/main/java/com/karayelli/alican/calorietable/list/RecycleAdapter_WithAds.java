@@ -17,14 +17,20 @@ import com.karayelli.alican.calorietable.model.TabItemUIModel;
 
 import java.util.List;
 
-public class RecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+
+/*
+public class RecycleAdapter_WithAds extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+
+    private static final int AD_TYPE = 0;
+    private static final int CONTENT_TYPE = 1;
+    private static final int LIST_AD_DELTA = 4;
 
     private List<TabItemUIModel> mItems;
     private Context mContext;
     private CalorieTableActivity.FoodItemListener mFoodItemListener;
     private FoodFilter filter;
 
-    public RecycleAdapter(List<TabItemUIModel> mItems, Context mContext, CalorieTableActivity.FoodItemListener itemListener) {
+    public RecycleAdapter_WithAds(List<TabItemUIModel> mItems, Context mContext, CalorieTableActivity.FoodItemListener itemListener) {
         this.mItems = mItems;
         this.mContext = mContext;
         this.mFoodItemListener = itemListener;
@@ -34,9 +40,24 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
 
+        if(viewType == CONTENT_TYPE){
             final View view = LayoutInflater.from(mContext).inflate(R.layout.item_list, parent, false);
             return new ViewHolder(view);
 
+        }else{
+            final View view = LayoutInflater.from(mContext).inflate(R.layout.ad_item_list, parent, false);
+            return new AdRecyclerHolder(view);
+        }
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position > 0 && position % LIST_AD_DELTA == 0 ){
+            return AD_TYPE;
+        }else{
+            return CONTENT_TYPE;
+        }
     }
 
 
@@ -44,9 +65,11 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
+        if (getItemViewType(position) == CONTENT_TYPE) {
+
             ViewHolder hld = (ViewHolder) holder;
 
-            final TabItemUIModel tabItemUIModel = mItems.get(position);
+            final TabItemUIModel tabItemUIModel = mItems.get(getRealPosition(position));
 
             hld.txt.setText(tabItemUIModel.getTitle());
             hld.calorieTxt.setText(tabItemUIModel.getCalorieValue() + " kCal");
@@ -65,15 +88,33 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
+        }else{
+            AdRecyclerHolder hld = (AdRecyclerHolder) holder;
+            AdRequest adRequest = new AdRequest.Builder().build();
+            hld.adView.loadAd(adRequest);
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+
+        int additionalContent = 0;
+        if(mItems.size() > 0 && LIST_AD_DELTA > 0 && mItems.size() > LIST_AD_DELTA){
+            additionalContent = mItems.size() / LIST_AD_DELTA;
+        }
+
+        return mItems.size() + additionalContent;
     }
 
 
+    private int getRealPosition(int position) {
+        if (LIST_AD_DELTA == 0) {
+            return position;
+        } else {
+            return position - position / LIST_AD_DELTA;
+        }
+    }
 
     public void replaceData(List<TabItemUIModel> items){
         setItems(items);
@@ -119,3 +160,4 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 }
+*/

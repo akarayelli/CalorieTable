@@ -36,11 +36,11 @@ public class DataUtil {
         FoodType foodType1 = new FoodType("Meyveler","Fruits","Description", "1", colors[1], R.drawable.tab_apple,R.drawable.sptlight_fruit);
         foodTypesDataSource.saveFoodType(foodType1);
 
-        Food food100 = new Food("Elma", "Apple","95","100",false, "1");
+        Food food100 = new Food("Elma", "Apple","95","100",true, "1");
         Food food101 = new Food("Kayısı", "Apricot","29","101",false, "1");
         Food food102 = new Food("Avokado", "Avocado","300","102",false, "1");
         //Food food103 = new Food("Amla", "Amla","60","103",false, "1");
-        Food food104 = new Food("Muz", "Banana","115","104",false, "1");
+        Food food104 = new Food("Muz", "Banana","115","104",true, "1");
         Food food105 = new Food("Üzüm", "Grape","70","105",false, "1");
         Food food106 = new Food("Limon", "Lemon","55","106",false, "1");
         Food food107 = new Food("Mango", "Mango","75","107",false, "1");
@@ -153,9 +153,9 @@ public class DataUtil {
         FoodType foodType3 = new FoodType("Süt Ürünleri","Dairy Foods","Description","3", colors[3], R.drawable.tab_milk,R.drawable.sptlight_milk);
         foodTypesDataSource.saveFoodType(foodType3);
 
-        Food food300 = new Food("Süt(Yağlı)", "Milk, whole","68","300",false,"3");
-//        Food food301 = new Food("Ayran", "Buttermilk, whole","38","301",false,"3");
-        Food food302 = new Food("Beyaz Peynir", "Feta Cheese","275","302",false,"3");
+        //Food food300 = new Food("Süt(Yağlı)", "Milk, whole","68","300",true,"3");
+        //Food food301 = new Food("Ayran", "Buttermilk, whole","38","301",false,"3");
+        Food food302 = new Food("Beyaz Peynir", "Feta Cheese","275","302",true,"3");
         Food food303 = new Food("Dil Peyniri","String Cheese","330","303",false,"3");
         Food food304 = new Food("İnek Sütü (Yağlı)","Cow's Milk (Full Fat)","61","304",false,"3");
         Food food305 = new Food("Kaşar Peyniri","Kashar Cheese","413","305",false,"3");
@@ -170,8 +170,8 @@ public class DataUtil {
         Food food314 = new Food("Süt Tozu (Yağlı)","Milk Powder (Full Fat)","496","314",false,"3");
         Food food315 = new Food("Süt Tozu (Yağsız)","Milk Powder (No Fat)","362","315",false,"3");
 
-        foodDataSource.saveFood(food300);
-      //  foodDataSource.saveFood(food301);
+        //foodDataSource.saveFood(food300);
+      // foodDataSource.saveFood(food301);
         foodDataSource.saveFood(food302);
         foodDataSource.saveFood(food303);
         foodDataSource.saveFood(food304);
@@ -255,7 +255,7 @@ public class DataUtil {
         Food food517 = new Food("Viski","Whiskey","300","517",false,"5");
         Food food518 = new Food("Votka","Vodka","300","518",false,"5");
         Food food519 = new Food("Cin","Gin","300","519",false,"5");
-        Food food520 = new Food("Ayran","Buttermilk, whole","38","520",false,"5");
+        Food food520 = new Food("Ayran","Buttermilk, whole","38","520",true,"5");
 
 
         foodDataSource.saveFood(food500);
@@ -288,7 +288,7 @@ public class DataUtil {
         foodTypesDataSource.saveFoodType(foodType6);
 
 
-        Food food600 = new Food("Ekmek (Buğday)","Bread (Wheat)","276","600",false,"6");
+        Food food600 = new Food("Ekmek (Buğday)","Bread (Wheat)","276","600",true,"6");
         Food food601 = new Food("Ekmek (Kepek)","Bread (Rye)","243","601",false,"6");
         Food food602 = new Food("Ekmek (Çavdar)","Bread (Bran)","60","602",false,"6");
         Food food603 = new Food("Galeta Unu","Breadcrumbs","392","603",false,"6");
@@ -314,6 +314,9 @@ public class DataUtil {
         Food food623 = new Food("Patates","Potato","86","623",false,"6");
         Food food624 = new Food("Patetes Püresi","Cream Potatos","77","624",false,"6");
         Food food625 = new Food("Patates Kızartması","Fried Potatos","222","625",false,"6");
+        Food food626 = new Food("Susam","Sesame","589","626",false,"6");
+        Food food627 = new Food("Arpa","Barley","367","627",false,"6");
+        Food food628 = new Food("Kuskus","Kuskus","371","628",false,"6");
 
 
         foodDataSource.saveFood(food600);
@@ -342,13 +345,40 @@ public class DataUtil {
         foodDataSource.saveFood(food623);
         foodDataSource.saveFood(food624);
         foodDataSource.saveFood(food625);
+        foodDataSource.saveFood(food626);
+        foodDataSource.saveFood(food627);
+        foodDataSource.saveFood(food628);
 
 
+        // ************************** KURUYEMİŞ ******************
+
+        FoodType foodType7 = new FoodType("Kuruyemiş","Nuts","Description","7", colors[7], R.drawable.tab_walnut, R.drawable.sptlight_fish);
+        foodTypesDataSource.saveFoodType(foodType7);
 
 
+        Food food700 = new Food("Badem","Almond","600","700",false,"7");
+        Food food701 = new Food("Hindistan Cevizi","Coconut","701","601",false,"7");
+        Food food702 = new Food("Fındık","Hazelnut","650","702",true,"7");
+        Food food704 = new Food("Çam Fıstığı","Pine Nuts","600","704",false,"7");
+        Food food705 = new Food("Ceviz","Walnut","549","705",true,"7");
+        Food food706 = new Food("Patlamış Mısır","Popcorn","478","706",false,"7");
+        Food food707 = new Food("Kabak Çekirdeği","Pumpkin seeds","571","707",false,"7");
+        Food food708 = new Food("Ay Çekirdeği","Sunflower","578","708",false,"7");
+        Food food709 = new Food("Yer Fıstığı","Peanut","582","709",false,"7");
+        Food food710 = new Food("Antep Fıstığı","Pistachio","567","710",false,"7");
+        Food food711 = new Food("Kaju","Cashew","574","711",false,"7");
 
-
-
+        foodDataSource.saveFood(food700);
+        foodDataSource.saveFood(food701);
+        foodDataSource.saveFood(food702);
+        foodDataSource.saveFood(food704);
+        foodDataSource.saveFood(food705);
+        foodDataSource.saveFood(food706);
+        foodDataSource.saveFood(food707);
+        foodDataSource.saveFood(food708);
+        foodDataSource.saveFood(food709);
+        foodDataSource.saveFood(food710);
+        foodDataSource.saveFood(food711);
 
     }
 

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "786568032200",
+    "firebase_url": "https://calorie-table.firebaseio.com",
+    "project_id": "calorie-table",
+    "storage_bucket": "calorie-table.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786568032200:android:c0f933fb6b2466fd",
+        "android_client_info": {
+          "package_name": "com.karayelli.alican.calorietable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786568032200-3n6pq3mglj3canpg3gbmttlat5aalt43.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "786568032200-3n6pq3mglj3canpg3gbmttlat5aalt43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdjsAGfJf_HFjvfKtQ0y8XeGGt1VEGWjw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

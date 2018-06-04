@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,6 +10,7 @@
     android:background="@color/mainScreenBgColor"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
 
 
      <!--********** COLLAPSING BAR SECTION **************-->
@@ -46,6 +49,7 @@
                 app:popupTheme="@style/AppTheme.AppBarOverlay"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
     <!--***********************************************-->
 
@@ -55,6 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
 
 
     <devlight.io.library.ntb.NavigationTabBar
@@ -67,4 +73,9 @@
         app:ntb_inactive_color="@color/white"
         app:ntb_typeface="fonts/agency.ttf"/>
 
+
 </android.support.design.widget.CoordinatorLayout>
+
+
+
+
