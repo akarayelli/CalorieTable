@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.TintableImageSourceView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -28,7 +27,6 @@ import com.karayelli.alican.calorietable.model.TabItemUIModel;
 import com.karayelli.alican.calorietable.model.TabUIModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import devlight.io.library.ntb.NavigationTabBar;
@@ -55,6 +53,9 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
         initUI(new ArrayList<TabUIModel>(), new ArrayList<TabItemUIModel>());
 
+        //initialzeBannerAds();
+
+        //Create presenter and start
         mPresenter = new CalorieTablePresenter(Injection.provideFoodTypesDataSource(getApplicationContext()), Injection.provideFoodDataSource(getApplicationContext()), this);
         mPresenter.start();
     }
@@ -67,6 +68,11 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     }
 
 
+    /**
+     * Initializes View pager and navigation tab bars
+     * @param tabUIModels
+     * @param favoriteItemList
+     */
     private void initUI(final List<TabUIModel> tabUIModels, final List<TabItemUIModel> favoriteItemList) {
 
         // ***************  VIEW PAGER **********************
@@ -88,22 +94,11 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
                 container.removeView((View) object);
-
-                final View view = LayoutInflater.from(
-                        getBaseContext()).inflate(R.layout.item_vp_list, null, false);
-
-               AdView adView = view.findViewById(R.id.adView);
-
-               if(adView != null) {
-                   adView.destroy();
-               }
-
             }
 
             @Override
             public Object instantiateItem(final ViewGroup container, final int position) {
-                final View view = LayoutInflater.from(
-                        getBaseContext()).inflate(R.layout.item_vp_list, null, false);
+                final View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.item_vp_list, null, false);
 
 
                 // ****************** RECYCLE VIEW *************************
@@ -126,11 +121,11 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                     mAdapterList.add(position,adapter);
 
                 }
-                //************************************************************
+                //******************************************************************************
 
 
 
-                //************************* FILTERABLE SEARCH ****************
+                //************************* FILTERABLE SEARCH **********************************
                 final SearchView searchView = view.findViewById(R.id.mSearch);
                 RecycleAdapter finalAdapter = adapter;
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -153,25 +148,13 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
                 ImageView searchButton = (ImageView) searchView.findViewById (android.support.v7.appcompat.R.id.search_button);
                 searchButton.setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
-                // ***********************************************************
-
-
-                //************************* AD VIEW ****************
-
-                /*
-                final AdView adView = view.findViewById(R.id.adView);
-                AdRequest adRequest = new AdRequest.Builder().build();
-                adView.loadAd(adRequest);
-                */
-                // ***********************************************************
+                // ************************************************************************************
 
                 container.addView(view);
                 return view;
             }
         });
 
-
-        final String[] colors = getResources().getStringArray(R.array.tab_color);
 
         mNavigationTabBar = findViewById(R.id.ntb_horizontal);
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
@@ -186,6 +169,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                         .build()
         );
 
+        //************ Food Type Tabs creation**********
         for(TabUIModel tabUIModel : tabUIModels){
             models.add(
                     new NavigationTabBar.Model.Builder(
@@ -196,6 +180,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
             );
         }
 
+        // Set models and start from index "0" tab
         mNavigationTabBar.setModels(models);
         mNavigationTabBar.setViewPager(viewPager, 0);
 
@@ -206,6 +191,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         mNavigationTabBar.setBehaviorEnabled(true);
         mNavigationTabBar.setTitleSize(8.0f);
 
+        /*
         mNavigationTabBar.setOnTabBarSelectedIndexListener(new NavigationTabBar.OnTabBarSelectedIndexListener() {
             @Override
             public void onStartTabSelected(final NavigationTabBar.Model model, final int index) {
@@ -217,6 +203,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                 Timber.d("onEndTabSelected");
             }
         });
+        */
 
 
         mNavigationTabBar.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -229,7 +216,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
                 final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar);
                 collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.white));
                 collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
-                
+
                 if(position == 0){
                     Timber.d("Will initialize first tab (FAVORITE)...");
                     //backdropImageView.setImageResource(R.drawable.sptlight_favorite);
@@ -276,14 +263,17 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     };
 
 
-    @Override
-    public void markFoodAsFavorite(String id) {
-
+    private void initialzeBannerAds(){
+        final AdView adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
     }
 
     @Override
-    public void setLoadingIndicator(boolean active) {
-    }
+    public void markFoodAsFavorite(String id) {}
+
+    @Override
+    public void setLoadingIndicator(boolean active) { }
 
     @Override
     public void showCalorieTable(List<TabUIModel> tabUIModels, List<TabItemUIModel> favoriteTabData, Boolean initialize) {
@@ -297,18 +287,13 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
     @Override
     public boolean isActive() {
-        return this.isActivityRunning(this.getClass());
-    }
+        return this.isActivityRunning(this.getClass()); }
 
     @Override
-    public void showFoodDetail(String id) {
-
-    }
+    public void showFoodDetail(String id) { }
 
     @Override
-    public void showLoadingTasksError() {
-
-    }
+    public void showLoadingTasksError() { }
 
     @Override
     public void showSuccessfullySavedMessage() {

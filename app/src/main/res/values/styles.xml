@@ -5,6 +5,13 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 
+    <style name="CollapsedAppBar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
     <!---->
     <!--<style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">-->
         <!--<item name="searchIcon">@drawable/icn_search</item>-->
