@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.karayelli.alican.calorietable.BaseActivity;
 import com.karayelli.alican.calorietable.Injection;
 import com.karayelli.alican.calorietable.R;
@@ -39,6 +40,7 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     private CalorieTableContract.Presenter mPresenter;
     private List<RecycleAdapter> mAdapterList;
     private NavigationTabBar mNavigationTabBar;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         initUI(new ArrayList<TabUIModel>(), new ArrayList<TabItemUIModel>());
 

@@ -35,6 +35,35 @@ public class DataUtil {
         FoodType foodType1 = new FoodType("Meyve/Sebze","Fruits/Vegetables","Description", "1", colors[1], R.drawable.tab_fruits_vegetables,R.drawable.sptlight_1);
         foodTypesDataSource.saveFoodType(foodType1);
 
+        FoodType foodType2 = new FoodType("Et Ürünleri", "Meats","Description","2", colors[2], R.drawable.tab_meat,R.drawable.sptlight_1);
+        foodTypesDataSource.saveFoodType(foodType2);
+
+        FoodType foodType3 = new FoodType("Süt Ürünleri","Dairy Foods","Description","3", colors[3], R.drawable.tab_milk,R.drawable.sptlight_1);
+        foodTypesDataSource.saveFoodType(foodType3);
+
+        FoodType foodType4 = new FoodType("Balıklar","Fishes","Description","4", colors[4], R.drawable.tab_fish,R.drawable.sptlight_1);
+        foodTypesDataSource.saveFoodType(foodType4);
+
+        FoodType foodType5 = new FoodType("İçecekler","Beverages","Description","5", colors[5], R.drawable.tab_beverage,R.drawable.sptlight_1);
+        foodTypesDataSource.saveFoodType(foodType5);
+
+        FoodType foodType6 = new FoodType("Ekmek/Tahıl","Bread/Grain","Description","6", colors[6], R.drawable.tab_bread, R.drawable.sptlight_1);
+        foodTypesDataSource.saveFoodType(foodType6);
+
+        FoodType foodType7 = new FoodType("Kuruyemiş","Nuts","Description","7", colors[7], R.drawable.tab_walnut, R.drawable.sptlight_1);
+        foodTypesDataSource.saveFoodType(foodType7);
+
+
+        //TODO: Find a smarter solution.
+        //This is not a permenant
+
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         Food food100 = new Food("Elma", "Apple","95","100",true, "1");
         Food food101 = new Food("Kayısı", "Apricot","29","101",false, "1");
         Food food102 = new Food("Avokado", "Avocado","300","102",false, "1");
@@ -144,11 +173,7 @@ public class DataUtil {
         foodDataSource.saveFood(food169);
         foodDataSource.saveFood(food170);
 
-        // ******************** SEBZELER *********************************** 
-
-        FoodType foodType2 = new FoodType("Et Ürünleri", "Meats","Description","2", colors[2], R.drawable.tab_meat,R.drawable.sptlight_1);
-        foodTypesDataSource.saveFoodType(foodType2);
-
+        // ******************** SEBZELER ***********************************
         Food food200 = new Food("Dana Eti (Yağlı)","Veal (Fatty)","223","200",false, "2");
         Food food201 = new Food("Dana eti (Orta Yağlı)","Veal (Med-Fat)","190","201",true, "2");
         Food food202 = new Food("Dana eti (Az Yağlı)","Veal (Low-Fat)","156","202",false, "2");
@@ -212,9 +237,6 @@ public class DataUtil {
 
         // ******************** SÜT ÜRÜNLERİ *********************************** 
 
-        FoodType foodType3 = new FoodType("Süt Ürünleri","Dairy Foods","Description","3", colors[3], R.drawable.tab_milk,R.drawable.sptlight_1);
-        foodTypesDataSource.saveFoodType(foodType3);
-
         //Food food300 = new Food("Süt(Yağlı)", "Milk, whole","68","300",true,"3");
         //Food food301 = new Food("Ayran", "Buttermilk, whole","38","301",false,"3");
         Food food302 = new Food("Beyaz Peynir", "Feta Cheese","275","302",true,"3");
@@ -251,11 +273,7 @@ public class DataUtil {
 
 
 
-        // ******************** BALIKLAR *********************************** 
-
-        FoodType foodType4 = new FoodType("Balıklar","Fishes","Description","4", colors[4], R.drawable.tab_fish,R.drawable.sptlight_1);
-        foodTypesDataSource.saveFoodType(foodType4);
-
+        // ******************** BALIKLAR ***********************************
         Food food400 = new Food("Alabalık","Trout","175","400",false,"4");
         Food food401 = new Food("Balık Unu","Fish Flour","336","401",false,"4");
         Food food402 = new Food("Kalkan","Turbot","193","402",false,"4");
@@ -292,10 +310,6 @@ public class DataUtil {
 
 
         // ******************** İÇECEKLER *********************************** 
-
-        FoodType foodType5 = new FoodType("İçecekler","Beverages","Description","5", colors[5], R.drawable.tab_beverage,R.drawable.sptlight_1);
-        foodTypesDataSource.saveFoodType(foodType5);
-
 
         Food food500 = new Food("Buzlu Çay","Ice Tea","100","500",false,"5");
         Food food501 = new Food("Sade Kahve","Black Turkish Coffee","100","501",false,"5");
@@ -346,8 +360,7 @@ public class DataUtil {
 
     // ************************** EKMEK TAHIL ******************
 
-        FoodType foodType6 = new FoodType("Ekmek/Tahıl","Bread/Grain","Description","6", colors[6], R.drawable.tab_bread, R.drawable.sptlight_1);
-        foodTypesDataSource.saveFoodType(foodType6);
+
 
 
         Food food600 = new Food("Ekmek (Buğday)","Bread (Wheat)","276","600",true,"6");
@@ -365,7 +378,10 @@ public class DataUtil {
         Food food612 = new Food("Sandviç Ekmeği","Sandwich Bread","298","612",false,"6");
         Food food613 = new Food("Mısır Gevreği","Corn Loaf","388","613",false,"6");
         Food food614 = new Food("Yulaf Ezmesi","Oatmeal","429","614",false,"6");
-        Food food615 = new Food("Pirinç Pilavı","Rice Pilaf","326","615",false,"6");
+        Food food615 = new Food("" +
+                "" +
+                "" +
+                "ç Pilavı","Rice Pilaf","326","615",false,"6");
         Food food616 = new Food("Pandispanya","Angel Cake","280","616",false,"6");
         Food food617 = new Food("Erişte/Şehriye","Vermicelli","111","617",false,"6");
         Food food618 = new Food("Bulgur","Bulgur","125","618",false,"6");
@@ -411,10 +427,6 @@ public class DataUtil {
 
 
         // ************************** KURUYEMİŞ ******************
-
-        FoodType foodType7 = new FoodType("Kuruyemiş","Nuts","Description","7", colors[7], R.drawable.tab_walnut, R.drawable.sptlight_1);
-        foodTypesDataSource.saveFoodType(foodType7);
-
 
         Food food700 = new Food("Badem","Almond","600","700",false,"7");
         Food food701 = new Food("Hindistan Cevizi","Coconut","701","601",false,"7");
