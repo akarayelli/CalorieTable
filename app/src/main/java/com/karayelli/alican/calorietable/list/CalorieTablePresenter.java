@@ -65,10 +65,6 @@ public class CalorieTablePresenter implements CalorieTableContract.Presenter {
             @Override
             public void onFoodsLoaded(List<FoodType> foodTypes, List<Food> favoriteFoods) {
 
-                if (!mCalorieTableListView.isActive()){
-                    return;
-                }
-
                 if (showLoadingUI){
                     mCalorieTableListView.setLoadingIndicator(false);
                 }

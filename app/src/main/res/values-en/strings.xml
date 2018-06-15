@@ -1,4 +1,11 @@
 <resources>
+    <string name="interstitial_unit_id_prod">ca-app-pub-9149926343985145/1881307555</string>
+    <string name="interstitial_unit_id_debug">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="banner_unit_id_prod">ca-app-pub-9149926343985145/6285606941</string>
+    <string name="banner_unit_id_debug">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_app_id">ca-app-pub-9149926343985145~8037672318</string>
+
+
     <string name="app_name">Calorie Table</string>
     <string name="favorite_tab_title">Favorites</string>
     <string name="search_query_hint">Food name...</string>

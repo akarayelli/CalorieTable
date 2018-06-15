@@ -18,7 +18,7 @@ public class CalorieTable extends Application{
 
         initializeDatabase();
 
-        MobileAds.initialize(this, "ca-app-pub-9149926343985145~8037672318");
+        MobileAds.initialize(this, this.getString(R.string.admob_app_id));
 
     }
 

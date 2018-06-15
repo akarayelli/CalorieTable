@@ -116,6 +116,7 @@ public class DataUtil {
         Food food168 = new Food("Maydanoz","Parsley","44","168",false, "1");
         Food food169 = new Food("Patlıcan","Eggplant","25","169",false, "1");
         Food food170 = new Food("Bezelye","Pease","84","170",false,"1");
+        Food food171 = new Food("Mantar","Mushroom","14","171",false,"1");
 
 
 

@@ -16,8 +16,6 @@ public interface CalorieTableContract {
 
         void showCalorieTable(List<TabUIModel> tabUIModels, List<TabItemUIModel> favoriteTabData, Boolean initialize);
 
-        boolean isActive();
-
         void markFoodAsFavorite(String id);
 
         void showFoodDetail(String id);

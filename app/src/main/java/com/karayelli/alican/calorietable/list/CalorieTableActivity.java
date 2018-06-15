@@ -18,14 +18,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.karayelli.alican.calorietable.BaseActivity;
 import com.karayelli.alican.calorietable.Injection;
 import com.karayelli.alican.calorietable.R;
 import com.karayelli.alican.calorietable.model.TabItemUIModel;
 import com.karayelli.alican.calorietable.model.TabUIModel;
+import com.karayelli.alican.calorietable.util.Constant;
+import com.karayelli.alican.calorietable.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +45,8 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
     private List<RecycleAdapter> mAdapterList;
     private NavigationTabBar mNavigationTabBar;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private InterstitialAd mInterstitialAd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,9 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
 
         initUI(new ArrayList<TabUIModel>(), new ArrayList<TabItemUIModel>());
 
-        //initialzeBannerAds();
+        initialzeBannerAds();
+
+        initialzeInterstitialAds();
 
         //Create presenter and start
         mPresenter = new CalorieTablePresenter(Injection.provideFoodTypesDataSource(getApplicationContext()), Injection.provideFoodDataSource(getApplicationContext()), this);
@@ -196,21 +204,6 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         mNavigationTabBar.setBehaviorEnabled(true);
         mNavigationTabBar.setTitleSize(8.0f);
 
-        /*
-        mNavigationTabBar.setOnTabBarSelectedIndexListener(new NavigationTabBar.OnTabBarSelectedIndexListener() {
-            @Override
-            public void onStartTabSelected(final NavigationTabBar.Model model, final int index) {
-                Timber.d("onStartTabSelected");
-            }
-
-            @Override
-            public void onEndTabSelected(final NavigationTabBar.Model model, final int index) {
-                Timber.d("onEndTabSelected");
-            }
-        });
-        */
-
-
         mNavigationTabBar.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
@@ -237,6 +230,8 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
             @Override
             public void onPageSelected(final int position) {
                 Timber.d("Page selected...");
+                increaseAdTrigger(AdTrigger.TAB_VISIT);
+                checkToShowInterstitialAds(AdTrigger.TAB_VISIT);
             }
 
             @Override
@@ -258,21 +253,23 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         public void onFoodMarkedAsFavorite(TabItemUIModel item) {
             Timber.d("Food item: " + item.getTitle() + " clicked to add to favorite!");
             mPresenter.addFoodToFavorite(item);
+            increaseAdTrigger(AdTrigger.FAVORITE);
+            checkToShowInterstitialAds(AdTrigger.FAVORITE);
         }
 
         @Override
         public void onFoodRemovedFromFavorite(TabItemUIModel item) {
             Timber.d("Food item: " + item.getTitle() + " clicked to remove from favorite!");
             mPresenter.removeFoodFromFavorite(item);
+            increaseAdTrigger(AdTrigger.FAVORITE);
+            checkToShowInterstitialAds(AdTrigger.FAVORITE);
         }
     };
 
 
-    private void initialzeBannerAds(){
-        final AdView adView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-    }
+
+
+
 
     @Override
     public void markFoodAsFavorite(String id) {}
@@ -289,10 +286,6 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
             mNavigationTabBar.setModelIndex(0,true);
         }
     }
-
-    @Override
-    public boolean isActive() {
-        return this.isActivityRunning(this.getClass()); }
 
     @Override
     public void showFoodDetail(String id) { }
@@ -323,4 +316,90 @@ public class CalorieTableActivity extends BaseActivity implements CalorieTableCo
         void onFoodMarkedAsFavorite(TabItemUIModel item);
         void onFoodRemovedFromFavorite(TabItemUIModel item);
     }
+
+
+    private void checkToShowInterstitialAds(AdTrigger adTrigger) {
+
+        if (mInterstitialAd.isLoaded()) {
+
+            switch (adTrigger) {
+                case TAB_VISIT:
+                    int tabVisitCount = SharedPreferencesUtil.with(getApplicationContext()).readInt(Constant.SHARED_PREFS_KEY_TAB_VISIT_COUNT, 0);
+
+                    if (tabVisitCount >= Constant.RequiredTabVisitCountToShowAd) {
+                        SharedPreferencesUtil.with(getApplicationContext()).writeInt(Constant.SHARED_PREFS_KEY_TAB_VISIT_COUNT, 0);
+                        mInterstitialAd.show();
+                    }
+                    break;
+                case FAVORITE:
+                    int favoriteActionCount = SharedPreferencesUtil.with(getApplicationContext()).readInt(Constant.SHARED_PREFS_KEY_FAVORITE_ACTION_COUNT, 0);
+                    if (favoriteActionCount >= Constant.RequiredFavoriteActionToShowAd) {
+                        SharedPreferencesUtil.with(getApplicationContext()).writeInt(Constant.SHARED_PREFS_KEY_FAVORITE_ACTION_COUNT, 0);
+                        mInterstitialAd.show();
+                    }
+                    break;
+            }
+        } else {
+            Timber.d("The interstitial wasn't loaded yet.");
+        }
+
+    }
+
+    private int increaseAdTrigger(AdTrigger adTrigger){
+
+        switch (adTrigger){
+            case FAVORITE:
+                int favoriteActionCount = SharedPreferencesUtil.with(getApplicationContext()).readInt(Constant.SHARED_PREFS_KEY_FAVORITE_ACTION_COUNT,0);
+                SharedPreferencesUtil.with(getApplicationContext()).writeInt(Constant.SHARED_PREFS_KEY_FAVORITE_ACTION_COUNT, ++favoriteActionCount);
+                return favoriteActionCount;
+            case TAB_VISIT:
+                int tabVisitCount = SharedPreferencesUtil.with(getApplicationContext()).readInt(Constant.SHARED_PREFS_KEY_TAB_VISIT_COUNT,0);
+                SharedPreferencesUtil.with(getApplicationContext()).writeInt(Constant.SHARED_PREFS_KEY_TAB_VISIT_COUNT, ++tabVisitCount);
+                return tabVisitCount;
+        }
+
+         return 0;
+    }
+
+    private void initialzeBannerAds(){
+        final AdView adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
+    private void initialzeInterstitialAds(){
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_unit_id_prod));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+        });
+    }
+
 }
